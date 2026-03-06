@@ -1,0 +1,171 @@
+generatorsMenuGui:
+  title: "<black>             Generators"
+  size: 36
+  contents:
+    0:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    1:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    2:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    3:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    4:
+      material: "GUNPOWDER"
+      name: "<gold>What are the SkyGenerators ?"
+      lore:
+        - "<white> | <gray>SkyGenerators are item generators that helps you"
+        - "<white> | <gray>to grow faster in game. automatically gets items"
+        - "<white> | <gray>without mining them! Its look likes a factory!"
+        - "<white>"
+        - "<white> | <yellow>How to use generators ?"
+        - "<white> | <gray>Simply just put them on the empty slots! booomb"
+        - "<white> | <gray>Now you can get items without mining! simple."
+    5:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    6:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    7:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    8:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    9:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    17:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    18:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    26:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    27:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    28:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    29:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    30:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    31:
+      material: "BARRIER"
+      name: "<red>Close Menu"
+      action: close
+    32:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    33:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    34:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    35:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+generatorManagerMenuGui:
+  title: "<dark_red>%generator%"
+  size: 36
+  contents:
+    0:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    1:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    2:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    3:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    4:
+      material: "GLOWSTONE_DUST"
+      name: "<gold>What is this menu?"
+      lore:
+        - "<white> | <gray>You can manage your generator from this menu!"
+        - "<white> | <gray>grab your items, upgrade your generator and"
+        - "<white> | <gray>take back it from the factory!!"
+        - "<white>"
+        - "<white> | <yellow>Does generators works while we are offline ?"
+        - "<white> | <gray>Yes it does! but always make sure that the storage"
+        - "<white> | <gray>is empty! So generator can generate items for you!"
+    5:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    6:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    7:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    8:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    9:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    17:
+      material: "LODESTONE"
+      name: "<aqua>Upgrade your generator"
+      action: upgrade
+      lore:
+        - "<white> | <yellow>Costs:"
+        - "<white> | <gold>%cost%"
+    18:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    26:
+      material: "WHITE_CONCRETE_POWDER"
+      name: "<blue>Collect all the generated items"
+      action: collect
+      lore:
+        - "<white> | <gray>Generated Items:<aqua> %generated%/%storage%"
+    27:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    28:
+      material: "ARROW"
+      skull: "base64"
+      name: "<yellow>Go back to last menu"
+      action: menu-generatorsMenuGui
+    29:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    30:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    31:
+      material: "BARRIER"
+      name: "<red>Close Menu"
+      action: close
+    32:
+      material: "RED_WOOL"
+      name: "<red><bold>PickUp Generator"
+      lore:
+        - "<white> | <gray>Want to take back the generator ?"
+        - "<white> | <gray>Click here to pick it up and deactivate it!"
+      action: pickup
+    33:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+    34:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "
+    35:
+      material: "RED_STAINED_GLASS_PANE"
+      name: " "

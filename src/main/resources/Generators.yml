@@ -1,0 +1,335 @@
+CobbleStoneGenerator1:
+  name: "Cobblestone Generator"
+  displayName: "<white>Cobblestone <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: POLISHED_ANDESITE
+  generator:
+    material: COBBLESTONE
+    speed: 1 # blocks per minute
+    space: 64 # blocks
+    upgrade: CobbleStoneGenerator2
+CobbleStoneGenerator2:
+  name: "Cobblestone Generator Lvl 2"
+  displayName: "<white>Cobblestone<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: POLISHED_ANDESITE
+  generator:
+    material: COBBLESTONE
+    speed: 2
+    space: 100
+    upgrade: CobbleStoneGenerator3
+CobbleStoneGenerator3:
+  name: "Cobblestone Generator Lvl 3"
+  displayName: "<white>Cobblestone<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: POLISHED_ANDESITE
+  generator:
+    material: COBBLESTONE
+    speed: 3
+    space: 200
+    upgrade: CobbleStoneGenerator4
+CobbleStoneGenerator4:
+  name: "Cobblestone Generator Lvl 4"
+  displayName: "<white>Cobblestone<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: POLISHED_ANDESITE
+  generator:
+    material: COBBLESTONE
+    speed: 4
+    space: 250
+    upgrade: CobbleStoneGenerator5
+CobbleStoneGenerator5:
+  name: "Cobblestone Generator Lvl 5"
+  displayName: "<white>Cobblestone<aqua>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: POLISHED_DIORITE
+  generator:
+    material: COBBLESTONE
+    speed: 5
+    space: 350
+CoalGenerator1:
+  name: "Coal Generator Lvl 1"
+  displayName: "<gray>Coal<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COAL_BLOCK
+  generator:
+    material: COAL
+    speed: 1
+    space: 64
+    upgrade: CoalGenerator2
+CoalGenerator2:
+  name: "Coal Generator Lvl 2"
+  displayName: "<gray>Coal<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COAL_BLOCK
+  generator:
+    material: COAL
+    speed: 2
+    space: 128
+CoalGenerator3:
+  name: "Coal Generator Lvl 3"
+  displayName: "<gray>Coal<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COAL_BLOCK
+  generator:
+    material: COAL
+    speed: 3
+    space: 192
+CoalGenerator4:
+  name: "Coal Generator Lvl 4"
+  displayName: "<gray>Coal<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COAL_BLOCK
+  generator:
+    material: COAL
+    speed: 4
+    space: 256
+CoalGenerator5:
+  name: "Coal Generator Lvl 5"
+  displayName: "<gray>Coal<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COAL_BLOCK
+  generator:
+    material: COAL
+    speed: 5
+    space: 512
+IronGenerator1:
+  name: "Iron Generator Lvl 1"
+  displayName: "<white>Iron<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: IRON_BLOCK
+  generator:
+    material: IRON_INGOT
+    speed: 1
+    space: 64
+IronGenerator2:
+  name: "Iron Generator Lvl 2"
+  displayName: "<white>Iron<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: IRON_BLOCK
+  generator:
+    material: IRON_INGOT
+    speed: 2
+    space: 128
+IronGenerator3:
+  name: "Iron Generator Lvl 3"
+  displayName: "<white>Iron<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: IRON_BLOCK
+  generator:
+    material: IRON_INGOT
+    speed: 3
+    space: 192
+IronGenerator4:
+  name: "Iron Generator Lvl 4"
+  displayName: "<white>Iron<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: IRON_BLOCK
+  generator:
+    material: IRON_INGOT
+    speed: 4
+    space: 256
+IronGenerator5:
+  name: "Iron Generator Lvl 5"
+  displayName: "<white>Iron<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: IRON_BLOCK
+  generator:
+    material: IRON_INGOT
+    speed: 5
+    space: 512
+DiamondGenerator1:
+  name: "Diamond Generator Lvl 1"
+  displayName: "<aqua>Diamond<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: DIAMOND_BLOCK
+  generator:
+    material: DIAMOND
+    speed: 1
+    space: 64
+DiamondGenerator2:
+  name: "Diamond Generator Lvl 2"
+  displayName: "<aqua>Diamond<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: DIAMOND_BLOCK
+  generator:
+    material: DIAMOND
+    speed: 2
+    space: 128
+DiamondGenerator3:
+  name: "Diamond Generator Lvl 3"
+  displayName: "<aqua>Diamond<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: DIAMOND_BLOCK
+  generator:
+    material: DIAMOND
+    speed: 3
+    space: 192
+DiamondGenerator4:
+  name: "Diamond Generator Lvl 4"
+  displayName: "<aqua>Diamond<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: DIAMOND_BLOCK
+  generator:
+    material: DIAMOND
+    speed: 4
+    space: 256
+DiamondGenerator5:
+  name: "Diamond Generator Lvl 5"
+  displayName: "<aqua>Diamond<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: DIAMOND_BLOCK
+  generator:
+    material: DIAMOND
+    speed: 5
+    space: 512
+EmeraldGenerator1:
+  name: "Emerald Generator Lvl 1"
+  displayName: "<green>Emerald<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: EMERALD_BLOCK
+  generator:
+    material: EMERALD
+    speed: 1
+    space: 64
+EmeraldGenerator2:
+  name: "Emerald Generator Lvl 2"
+  displayName: "<green>Emerald<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: EMERALD_BLOCK
+  generator:
+    material: EMERALD
+    speed: 2
+    space: 128
+EmeraldGenerator3:
+  name: "Emerald Generator Lvl 3"
+  displayName: "<green>Emerald<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: EMERALD_BLOCK
+  generator:
+    material: EMERALD
+    speed: 3
+    space: 192
+EmeraldGenerator4:
+  name: "Emerald Generator Lvl 4"
+  displayName: "<green>Emerald<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: EMERALD_BLOCK
+  generator:
+    material: EMERALD
+    speed: 4
+    space: 256
+EmeraldGenerator5:
+  name: "Emerald Generator Lvl 5"
+  displayName: "<green>Emerald<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: EMERALD_BLOCK
+  generator:
+    material: EMERALD
+    speed: 5
+    space: 512
+IceGenerator1:
+  name: "Ice Generator Lvl 1"
+  displayName: "<aqua>Ice<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: ICE
+  generator:
+    material: ICE
+    speed: 1
+    space: 64
+IceGenerator2:
+  name: "Ice Generator Lvl 2"
+  displayName: "<aqua>Ice<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: ICE
+  generator:
+    material: ICE
+    speed: 2
+    space: 128
+IceGenerator3:
+  name: "Ice Generator Lvl 3"
+  displayName: "<aqua>Ice<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: ICE
+  generator:
+    material: ICE
+    speed: 3
+    space: 192
+IceGenerator4:
+  name: "Ice Generator Lvl 4"
+  displayName: "<aqua>Ice<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: ICE
+  generator:
+    material: ICE
+    speed: 4
+    space: 256
+IceGenerator5:
+  name: "Ice Generator Lvl 5"
+  displayName: "<aqua>Ice<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: ICE
+  generator:
+    material: ICE
+    speed: 5
+    space: 512

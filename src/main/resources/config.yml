@@ -1,0 +1,6 @@
+version: 1.0
+
+debug: false
+
+# should we generate blocks even if player is offline ?
+offlineGenerator: true

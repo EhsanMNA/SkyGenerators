@@ -1,0 +1,13 @@
+name: SkyGenerators
+version: '1.0'
+main: me.ehsanmna.skyGenerators.SkyGenerators
+api-version: '1.17'
+prefix: SkyGenerator
+authors: [ EhsanMNA ]
+commands:
+  SkyGenerator:
+    aliases:
+      - sg
+      - generators
+      - sGenerator
+      - skyGenerators

@@ -1,0 +1,83 @@
+package me.ehsanmna.skyGenerators.config;
+
+import me.ehsanmna.skyGenerators.SkyGenerators;
+import me.ehsanmna.skyGenerators.manager.PlayerGeneratorManager;
+import me.ehsanmna.skyGenerators.models.PlayerGenerator;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+public class PlayerGeneratorConfig {
+
+    private final SkyGenerators plugin;
+    private YamlConfiguration configuration;
+    File file;
+    private final PlayerGeneratorManager playerGeneratorManager;
+
+    public PlayerGeneratorConfig(SkyGenerators plugin, PlayerGeneratorManager playerGeneratorManager) {
+        this.plugin = plugin;
+        this.playerGeneratorManager = playerGeneratorManager;
+        setup();
+    }
+
+    private void setup(){
+        file = new File(plugin.getDataFolder(),"Data.yml");
+        if(!file.exists()){
+            plugin.saveResource("Data.yml", false);
+        }
+        configuration = YamlConfiguration.loadConfiguration(file);
+    }
+
+    public void load(){
+        playerGeneratorManager.getService().getGenerators().clear();
+        for (String playerName : configuration.getKeys(false)){
+            for (String g : configuration.getConfigurationSection(playerName + ".generators").getKeys(false)){
+                ConfigurationSection generatorSection = configuration.getConfigurationSection(playerName+".generators."+g);
+                assert generatorSection != null;
+                UUID id = UUID.fromString(generatorSection.getString("playerGeneratorId", UUID.randomUUID().toString()));
+                String generatorId = generatorSection.getString("id", "CobbleStoneGenerator1");
+                int generated = generatorSection.getInt("generated");
+                PlayerGenerator playerGenerator = new PlayerGenerator(plugin.getGeneratorManager().getGenerator(generatorId));
+                playerGenerator.setGeneratedBlocks(generated);
+                playerGenerator.initilize();
+                playerGeneratorManager.getService().addGenerator(playerName,playerGenerator);
+            }
+        }
+    }
+
+    public void save(){
+        Map<String, List<PlayerGenerator>> playerGeneratorMap = playerGeneratorManager.getService().getGenerators();
+        for (Map.Entry<String, List<PlayerGenerator>> entrySet : playerGeneratorMap.entrySet()){
+            String playerName = entrySet.getKey();
+            if (!configuration.contains(playerName)) configuration.createSection(playerName);
+            ConfigurationSection generatorSection = configuration.getConfigurationSection(playerName+".generators");
+            if (generatorSection == null) generatorSection = configuration.createSection(playerName+".generators");
+//            configuration.set("uuid", playerUUID);;
+            int i = 0;
+            for (PlayerGenerator playerGenerator : entrySet.getValue()){
+                i++;
+                generatorSection.set(i+".id", playerGenerator.getGenerator().getBaseGenerator().getId());
+                generatorSection.set(i+".playerGeneratorId", playerGenerator.getGeneratorId().toString());
+                generatorSection.set(i+".generatorId", playerGenerator.getGenerator().getId().toString());
+                generatorSection.set(i+".generated", playerGenerator.getGeneratedBlocks());
+            }
+        }
+
+        try {
+            configuration.save(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void reloadConfig(){
+        setup();
+        save();
+        load();
+    }
+}

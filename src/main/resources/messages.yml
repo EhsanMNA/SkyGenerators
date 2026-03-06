@@ -1,0 +1,5 @@
+prefix: "<gold>SKYMINE <white>| "
+# commands
+
+# generators
+generator-collect-inventory-full: "<red>Sorry but your inventory is full!"
