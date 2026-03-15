@@ -32,4 +32,8 @@ public class GUIManager {
         guiService.getMenu("generatorManagerMenuGui").clone().open(player, playerGenerator);
     }
 
+    public void openGeneratorMenuOfPlayer(Player playerToOpen, Player targetPlayerGeneratorMenu){
+        guiService.getMenu("generatorsMenuGui").clone().openToOther(targetPlayerGeneratorMenu, playerToOpen);
+    }
+
 }

@@ -1,5 +1,27 @@
 prefix: "<gold>SKYMINE <white>| "
 # commands
+command-generator-info: "<dark_red>SkyGenerators <white>| To get help type /sg help!"
+command-generator-not-found: "<dark_red>SkyGenerators <white>| <red>%generator_name% is not found!"
+command-no-permission: "<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!"
+command-not-found: "<dark_red>SkyGenerators <white>| Command not found!"
+command-player-not-found: "<dark_red>SkyGenerators <white>| <red>%player_name% is not online!"
+command-help: "<dark_red>SkyGenerators <white>| \n 
+    <white> | /sg help \n 
+    <white> | /sg list <gray>[OPTIONAL:gui] \n 
+    <white> | /sg give <green><player> <yellow><generator> \n 
+    <white> | /sg reload \n 
+    <white> | /sg debug \n 
+    <white> | /sg menu <gray>[OPTIONAL:playerName]"
+command-reload-success: "<dark_red>SkyGenerators <white>| Configuration has been reloaded!"
+command-give-usage: "<white>| /sg give <green><player> <yellow><generator>"
+command-give-success: "<white>| <green>Item has been successfully given!"
+command-player-only: "<white>| Sorry, but only players can do this!"
+command-debug-false: "<red>| Debug mode set to false!"
+command-debug-true: "<green>| Debug mode set to true!"
 
 # generators
 generator-collect-inventory-full: "<red>Sorry but your inventory is full!"
+generator-put-full: "<dark_red>SkyGenerators <white>| <red>Sorry but your generators amount is reached! if you want to use more generator, purchase ranks from <yellow>/store<white>!"
+
+# GUI
+gui-generator-list: "         <dark_red>Generators list"

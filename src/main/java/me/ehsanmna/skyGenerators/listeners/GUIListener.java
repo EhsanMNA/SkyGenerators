@@ -1,12 +1,15 @@
 package me.ehsanmna.skyGenerators.listeners;
 
 import me.ehsanmna.skyGenerators.SkyGenerators;
+import me.ehsanmna.skyGenerators.events.SkyGeneratorInputEvent;
+import me.ehsanmna.skyGenerators.events.SkyGeneratorPreInputEvent;
 import me.ehsanmna.skyGenerators.gui.Menu;
 import me.ehsanmna.skyGenerators.gui.MenuAction;
 import me.ehsanmna.skyGenerators.gui.MenuHolder;
 import me.ehsanmna.skyGenerators.models.Generator;
 import me.ehsanmna.skyGenerators.models.PlayerGenerator;
 import me.ehsanmna.skyGenerators.utils.TextUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -25,150 +28,315 @@ public class GUIListener implements Listener {
 
     private final SkyGenerators plugin = SkyGenerators.getInstance();
 
-    @EventHandler
-    public void onCLick(InventoryClickEvent event){
-        Player player = (Player) event.getWhoClicked();
-        Inventory inv = event.getClickedInventory();
-        int slot = event.getSlot();
-        ItemStack item = event.getCurrentItem();
-        ItemStack cursor = event.getCursor();
+    // Namespaced keys
+    private NamespacedKey generatorIdKey;
+    private NamespacedKey guiItemKey;
+    private NamespacedKey guiIdKey;
+    private NamespacedKey generatorSlotKey;
+    private NamespacedKey upgradeActionKey;
+    private NamespacedKey generatorNameKey;
 
-        if (inv == null) return;
+    // Menu identifiers
+    private static final String GENERATORS_MENU_ID = "generatorsMenuGui";
+    private static final String GENERATOR_MANAGER_MENU_ID = "generatorManagerMenuGui";
 
-        if (SkyGenerators.isDebugMode()){
-            if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder)
-                player.sendMessage(TextUtils.toComponent("<yellow>- Top inv is a menu inv!"));
-            if (item != null)
-                player.sendMessage(TextUtils.toComponent("<yellow>- "+item));
-            if (event.getCursor() != null)
-                player.sendMessage(TextUtils.toComponent("<red>- Cursor item:<white> "+event.getCursor()));
-            player.sendMessage(TextUtils.toComponent("<gold> + slot: "+slot+", +++"));
-        }
-
-        NamespacedKey idKey = new NamespacedKey(plugin, "generator-id");
-        NamespacedKey guiKey = new NamespacedKey(plugin, "gui-item");
-        NamespacedKey guiIdKey = new NamespacedKey(plugin, "gui-menu");
-        NamespacedKey generatorSlotKey = new NamespacedKey(plugin, "generator-slot");
-
-
-        if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder menuHolder){
-            // Do player clicked on own inv or top inv
-            if (inv.equals(player.getOpenInventory().getTopInventory())){
-                // player is clicked on top inv
-                if (inv.getHolder() instanceof MenuHolder){
-                    // player looking into a custom GUI
-
-
-                    // handle gui menu click
-                    if (item != null && item.getType() != Material.AIR){
-                        if (item.getItemMeta().getPersistentDataContainer().has(guiKey)){
-                            event.setCancelled(true);
-                            String menuId = item.getItemMeta().getPersistentDataContainer().get(guiIdKey, PersistentDataType.STRING);
-                            Menu menu = plugin.getGuiManager().getGuiService().getMenu(menuId);
-                            menu.getActions().getOrDefault(slot, MenuAction.CANCEL).run(player, null);
-                            if (!item.getItemMeta().getPersistentDataContainer().has(generatorSlotKey) &&
-                            !menuId.equalsIgnoreCase("generatorManagerMenuGui")) return;
-                        }
-                    }
-
-                    String menuId = menuHolder.getDescription();
-                    if (menuId.equalsIgnoreCase("generatorsMenuGui")){
-                        // check if clicked with generator item
-                        if (cursor != null && cursor.getType() != Material.AIR){
-                            if (cursor.getItemMeta().getPersistentDataContainer().has(idKey)){
-                                // Clicked generator on menu
-                                if (item != null && item.getType() != Material.AIR){
-                                    if (!item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "generator-slot"))){
-                                        event.setCancelled(true);
-                                        return;
-                                    }
-                                }
-                                String generatorId = cursor.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "generator-name"), PersistentDataType.STRING);
-                                Generator generator = plugin.getGeneratorManager().getGenerator(generatorId);
-                                PlayerGenerator playerGenerator = plugin.getPlayerGeneratorManager().getService().addGenerator(player, generator);
-                                playerGenerator.initilize();
-
-                                event.setCancelled(true);
-                                player.getOpenInventory().getCursor().setAmount(0);
-                                cursor.setType(null);
-                                item.setType(Material.AIR);
-                                inv.setItem(slot, generator.getAsItemStack());
-                                return;
-                            }
-                        }
-
-                        // cursor is null and player clicked without any item
-                        if (item == null || item.getType() == null){
-                            event.setCancelled(true);
-                            return;
-                        }
-
-                        ItemMeta meta = item.getItemMeta();;
-                        if (meta.getPersistentDataContainer().has(idKey)){
-                            // clicked on generator
-                            PlayerGenerator playerGenerator = plugin.getPlayerGeneratorManager().getGeneratorById(
-                                    UUID.fromString(Objects.requireNonNull(meta.getPersistentDataContainer().get(idKey, PersistentDataType.STRING))));
-
-                            if (playerGenerator == null) {
-                                player.sendMessage("Could not detect the player generator! this should be a bug maybe....");
-                                return;
-                            }
-
-                            plugin.getGuiManager().openGeneratorManagerMenu(player,playerGenerator);
-                        }
-
-                        event.setCancelled(true);
-                        return;
-                    }
-                    else if (menuId.equalsIgnoreCase("generatorManagerMenuGui")) {
-                        if ((cursor != null && cursor.getType() != Material.AIR) || (item == null || item.getType() == Material.AIR)){
-                            event.setCancelled(true);
-                            return;
-                        }
-
-                        UUID generatorId = UUID.fromString(menuHolder.getInformation());
-                        int amount = item.getAmount();
-                        PlayerGenerator playerGenerator = plugin.getPlayerGeneratorManager().getGeneratorById(generatorId);
-                        if (playerGenerator == null || !playerGenerator.isActive()) {
-                            event.setCancelled(true);
-                            return;
-                        }
-
-                        if (item.getItemMeta().getPersistentDataContainer().has(guiKey)){
-                            event.setCancelled(true);
-                            Menu menu = plugin.getGuiManager().getGuiService().getMenu(menuId);
-                            menu.getActions().getOrDefault(slot, MenuAction.CANCEL).run(player, playerGenerator);
-                            if (!item.getItemMeta().getPersistentDataContainer().has(generatorSlotKey)) return;
-                        }
-
-                        playerGenerator.setGeneratedBlocks(playerGenerator.getGeneratedBlocks() - amount);
-                        return;
-                    }
-                }
-            }
-
-            // or player clicked on own inventory
-            if (inv.equals(player.getInventory())){
-                if (item == null || item.getType() == Material.AIR) return;
-                if (!item.getItemMeta().getPersistentDataContainer().has(idKey)){
-                    event.setCancelled(true);
-                    return;
-                }
-            }
-        }
-
-
-//        if (inv.getHolder() instanceof MenuHolder menuHolder){
-//            // player clicked on menu
-//            if (item.getItemMeta().getPersistentDataContainer().has(idKey)){
-//                // player has clicked on a generator itemstack
-//                String generatorId = item.getItemMeta().getPersistentDataContainer().get(idKey, PersistentDataType.STRING);
-//                PlayerGenerator playerGenerator = plugin.getPlayerGeneratorManager().getGeneratorById(UUID.fromString(generatorId));
-//                plugin.getGuiManager().openGeneratorManagerMenu(player,playerGenerator);
-//                event.setCancelled(true);
-//                return;
-//            }
-//        }
+    public GUIListener() {
+        initializeNamespacedKeys();
     }
 
+    private void initializeNamespacedKeys() {
+        generatorIdKey = new NamespacedKey(plugin, "generator-id");
+        guiItemKey = new NamespacedKey(plugin, "gui-item");
+        guiIdKey = new NamespacedKey(plugin, "gui-menu");
+        generatorSlotKey = new NamespacedKey(plugin, "generator-slot");
+        upgradeActionKey = new NamespacedKey(plugin, "upgrade-action");
+        generatorNameKey = new NamespacedKey(plugin, "generator-name");
+    }
+
+
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        Inventory clickedInventory = event.getClickedInventory();
+        int slot = event.getSlot();
+        ItemStack clickedItem = event.getCurrentItem();
+        ItemStack cursorItem = event.getCursor();
+
+        if (clickedInventory == null) return;
+
+        debugInfo(player, clickedInventory, clickedItem, cursorItem, slot);
+
+        // Check if player is viewing a custom GUI
+        if (!isViewingCustomGUI(player)) return;
+
+        // Handle click based on which inventory was clicked
+        if (isTopInventory(clickedInventory, player)) {
+            handleTopInventoryClick(event, player, clickedInventory, slot, clickedItem, cursorItem);
+        } else if (isPlayerInventory(clickedInventory, player)) {
+            handlePlayerInventoryClick(event, clickedItem);
+        }
+    }
+
+
+
+    private boolean isViewingCustomGUI(Player player) {
+        return player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder;
+    }
+
+    private boolean isTopInventory(Inventory inventory, Player player) {
+        return inventory.equals(player.getOpenInventory().getTopInventory());
+    }
+
+    private boolean isPlayerInventory(Inventory inventory, Player player) {
+        return inventory.equals(player.getInventory());
+    }
+
+    private void debugInfo(Player player, Inventory inventory, ItemStack clickedItem, ItemStack cursorItem, int slot) {
+        if (!SkyGenerators.isDebugMode()) return;
+
+        if (isViewingCustomGUI(player)) {
+            player.sendMessage(TextUtils.toComponent("<yellow>- Top inv is a menu inv!"));
+        }
+        if (clickedItem != null) {
+            player.sendMessage(TextUtils.toComponent("<yellow>- " + clickedItem));
+        }
+        if (cursorItem != null) {
+            player.sendMessage(TextUtils.toComponent("<red>- Cursor item: <white>" + cursorItem));
+        }
+        player.sendMessage(TextUtils.toComponent("<gold> + slot: " + slot + ", +++"));
+    }
+
+
+
+    private void handleTopInventoryClick(InventoryClickEvent event, Player player,
+                                         Inventory inventory, int slot,
+                                         ItemStack clickedItem, ItemStack cursorItem) {
+
+        MenuHolder menuHolder = (MenuHolder) player.getOpenInventory().getTopInventory().getHolder();
+        String menuId = menuHolder.getDescription();
+
+        // Handle GUI item clicks
+        if (isGuiItemClick(clickedItem)) {
+            handleGuiItemClick(event, player, clickedItem, slot);
+        }
+
+        // Handle specific menu logic
+        if (GENERATORS_MENU_ID.equalsIgnoreCase(menuId)) {
+            handleGeneratorsMenuClick(event, player, inventory, slot, clickedItem, cursorItem);
+        } else if (GENERATOR_MANAGER_MENU_ID.equalsIgnoreCase(menuId)) {
+            handleGeneratorManagerMenuClick(event, player, menuHolder, slot, clickedItem, cursorItem);
+        }
+    }
+
+
+
+    private boolean isGuiItemClick(ItemStack item) {
+        return item != null &&
+                item.getType() != Material.AIR &&
+                item.getItemMeta().getPersistentDataContainer().has(guiItemKey);
+    }
+
+    private void handleGuiItemClick(InventoryClickEvent event, Player player, ItemStack clickedItem, int slot) {
+        event.setCancelled(true);
+
+        String menuId = clickedItem.getItemMeta()
+                .getPersistentDataContainer()
+                .get(guiIdKey, PersistentDataType.STRING);
+
+        Menu menu = plugin.getGuiManager().getGuiService().getMenu(menuId);
+        MenuAction action = menu.getActions().getOrDefault(slot, MenuAction.CANCEL);
+        action.run(player, null);
+
+        // Don't process further if it's not a generator slot or manager menu
+        if (!isGeneratorSlot(clickedItem) && !menuId.equalsIgnoreCase(GENERATOR_MANAGER_MENU_ID)) {
+            event.setCancelled(true);
+        }
+    }
+
+
+
+    private boolean isGeneratorSlot(ItemStack item) {
+        return item.getItemMeta().getPersistentDataContainer().has(generatorSlotKey);
+    }
+
+    private void handleGeneratorsMenuClick(InventoryClickEvent event, Player player,
+                                           Inventory inventory, int slot,
+                                           ItemStack clickedItem, ItemStack cursorItem) {
+
+        // Handle placing generator in empty slot
+        if (isPlacingGeneratorInSlot(cursorItem, clickedItem)) {
+            handleGeneratorPlacement(event, player, inventory, slot, cursorItem, clickedItem);
+            return;
+        }
+
+        // Handle clicking on empty slot
+        if (isEmptySlot(clickedItem)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        // Handle clicking on existing generator
+        if (isGeneratorItem(clickedItem)) {
+            handleGeneratorClick(event, player, clickedItem);
+        }
+
+        event.setCancelled(true);
+    }
+
+
+    private boolean isPlacingGeneratorInSlot(ItemStack cursorItem, ItemStack slotItem) {
+        return cursorItem != null &&
+                cursorItem.getType() != Material.AIR &&
+                isGeneratorItem(cursorItem) &&
+                (isEmptySlot(slotItem) || isGeneratorSlot(slotItem));
+    }
+
+    private boolean isEmptySlot(ItemStack item) {
+        return item == null || item.getType() == Material.AIR;
+    }
+
+
+
+
+    private boolean isGeneratorItem(ItemStack item) {
+        return item != null &&
+                item.getType() != Material.AIR &&
+                item.getItemMeta().getPersistentDataContainer().has(generatorIdKey);
+    }
+
+    private void handleGeneratorPlacement(InventoryClickEvent event, Player player,
+                                          Inventory inventory, int slot,
+                                          ItemStack cursorItem, ItemStack slotItem) {
+
+        // Check if slot is valid for placement
+        if (slotItem != null && slotItem.getType() != Material.AIR &&
+                !slotItem.getItemMeta().getPersistentDataContainer().has(generatorSlotKey)) {
+            event.setCancelled(true);
+            return;
+        }
+
+
+        String generatorId = cursorItem.getItemMeta()
+                .getPersistentDataContainer()
+                .get(generatorNameKey, PersistentDataType.STRING);
+
+        Generator generator = plugin.getGeneratorManager().getGenerator(generatorId);
+
+        SkyGeneratorPreInputEvent event1 = new SkyGeneratorPreInputEvent(player,generator);
+        Bukkit.getServer().getPluginManager().callEvent(event1);
+        if (event1.isCancelled()) {
+            event.setCancelled(true);
+            return;
+        }
+
+        PlayerGenerator playerGenerator = plugin.getPlayerGeneratorManager()
+                .getService()
+                .addGenerator(player, generator);
+        playerGenerator.initilize();
+
+        // Clear cursor and place generator
+        event.setCancelled(true);
+        player.getOpenInventory().setCursor(null);
+        inventory.setItem(slot, generator.getAsItemStack());
+
+        SkyGeneratorInputEvent event2 = new SkyGeneratorInputEvent(player,playerGenerator);
+        Bukkit.getServer().getPluginManager().callEvent(event2);
+    }
+
+    private void handleGeneratorClick(InventoryClickEvent event, Player player, ItemStack clickedItem) {
+        ItemMeta meta = clickedItem.getItemMeta();
+        UUID generatorUUID = UUID.fromString(Objects.requireNonNull(
+                meta.getPersistentDataContainer().get(generatorIdKey, PersistentDataType.STRING)));
+
+        PlayerGenerator playerGenerator = plugin.getPlayerGeneratorManager()
+                .getGeneratorById(generatorUUID);
+
+        if (playerGenerator == null) {
+            player.sendMessage("Could not detect the player generator! This might be a bug...");
+            return;
+        }
+
+        plugin.getGuiManager().openGeneratorManagerMenu(player, playerGenerator);
+    }
+
+    private void handleGeneratorManagerMenuClick(InventoryClickEvent event, Player player,
+                                                 MenuHolder menuHolder, int slot,
+                                                 ItemStack clickedItem, ItemStack cursorItem) {
+
+        // Cancel if trying to place item or click empty slot
+        if (isInvalidManagerMenuClick(cursorItem, clickedItem)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        UUID generatorId = UUID.fromString(menuHolder.getInformation());
+        PlayerGenerator playerGenerator = plugin.getPlayerGeneratorManager().getGeneratorById(generatorId);
+
+        if (isInvalidGenerator(playerGenerator)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        // Handle upgrade button click
+        if (isUpgradeItem(clickedItem)) {
+            handleUpgradeClick(event, player, playerGenerator);
+            return;
+        }
+
+        // Handle GUI item click
+        if (isGuiItemClick(clickedItem)) {
+            handleManagerGuiItemClick(event, player, clickedItem, slot, playerGenerator);
+            return;
+        }
+
+        // Handle resource collection
+        handleResourceCollection(event, playerGenerator, clickedItem);
+    }
+
+    private boolean isInvalidManagerMenuClick(ItemStack cursorItem, ItemStack clickedItem) {
+        return (cursorItem != null && cursorItem.getType() != Material.AIR) ||
+                isEmptySlot(clickedItem);
+    }
+
+    private boolean isInvalidGenerator(PlayerGenerator generator) {
+        return generator == null || !generator.isActive();
+    }
+
+    private boolean isUpgradeItem(ItemStack item) {
+        return item.getItemMeta().getPersistentDataContainer().has(upgradeActionKey);
+    }
+
+    private void handleUpgradeClick(InventoryClickEvent event, Player player, PlayerGenerator generator) {
+        event.setCancelled(true);
+        generator.upgrade(player);
+    }
+
+    private void handleManagerGuiItemClick(InventoryClickEvent event, Player player,
+                                           ItemStack clickedItem, int slot,
+                                           PlayerGenerator generator) {
+        event.setCancelled(true);
+
+        String menuId = clickedItem.getItemMeta()
+                .getPersistentDataContainer()
+                .get(guiIdKey, PersistentDataType.STRING);
+
+        Menu menu = plugin.getGuiManager().getGuiService().getMenu(menuId);
+        MenuAction action = menu.getActions().getOrDefault(slot, MenuAction.CANCEL);
+        action.run(player, generator);
+    }
+
+    private void handleResourceCollection(InventoryClickEvent event,
+                                          PlayerGenerator generator,
+                                          ItemStack clickedItem) {
+        int amount = clickedItem.getAmount();
+        generator.setGeneratedBlocks(generator.getGeneratedBlocks() - amount);
+    }
+
+    private void handlePlayerInventoryClick(InventoryClickEvent event, ItemStack clickedItem) {
+        // Cancel if trying to move non-generator items while GUI is open
+        if (!isGeneratorItem(clickedItem)) {
+            event.setCancelled(true);
+        }
+    }
 }

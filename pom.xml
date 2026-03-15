@@ -6,7 +6,7 @@
 
     <groupId>me.ehsanmna</groupId>
     <artifactId>SkyGenerators</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>SkyGenerators</name>
@@ -72,6 +72,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.azerima</groupId>
+            <artifactId>SkyMaterials</artifactId>
+            <version>2.2.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

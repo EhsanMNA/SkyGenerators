@@ -117,8 +117,12 @@ generatorManagerMenuGui:
       material: "RED_STAINED_GLASS_PANE"
       name: " "
     9:
-      material: "RED_STAINED_GLASS_PANE"
-      name: " "
+      material: "YELLOW_STAINED_GLASS_PANE"
+      name: "<yellow>Upgrade slot"
+      action: upgrade_slot
+      lore:
+        - "<white> | <gray>Click with an upgrade item to add"
+        - "<white> | <gray>new upgrades into Generator!"
     17:
       material: "LODESTONE"
       name: "<aqua>Upgrade your generator"
@@ -127,8 +131,12 @@ generatorManagerMenuGui:
         - "<white> | <yellow>Costs:"
         - "<white> | <gold>%cost%"
     18:
-      material: "RED_STAINED_GLASS_PANE"
-      name: " "
+      material: "YELLOW_STAINED_GLASS_PANE"
+      name: "<yellow>Upgrade slot"
+      action: upgrade_slot
+      lore:
+        - "<white> | <gray>Click with an upgrade item to add"
+        - "<white> | <gray>new upgrades into Generator!"
     26:
       material: "WHITE_CONCRETE_POWDER"
       name: "<blue>Collect all the generated items"

@@ -4,3 +4,11 @@ debug: false
 
 # should we generate blocks even if player is offline ?
 offlineGenerator: true
+
+generatorAmount:
+  default: 5
+  astra: 6
+  nova: 7
+  supernova: 9
+  galaxy: 11
+  sponsor: 14

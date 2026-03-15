@@ -21,7 +21,12 @@ import java.util.*;
 
 @Getter
 @Setter
-public class Menu implements Cloneable{
+public class Menu implements Cloneable {
+
+    private static final SkyGenerators PLUGIN = SkyGenerators.getInstance();
+    private static final NamespacedKey GUI_ITEM_KEY = new NamespacedKey(PLUGIN, "gui-item");
+    private static final NamespacedKey GENERATOR_SLOT_KEY = new NamespacedKey(PLUGIN, "generator-slot");
+    private static final NamespacedKey GUI_MENU_KEY = new NamespacedKey(PLUGIN, "gui-menu");
 
     private String name;
     private String rawTitle;
@@ -31,108 +36,185 @@ public class Menu implements Cloneable{
     private Map<Integer, ItemStack> items = new HashMap<>();
     private Map<Integer, MenuAction> actions = new HashMap<>();
 
+    // GUI identifiers
+    private static final String GENERATORS_MENU_ID = "generatorsMenuGui";
+    private static final String GENERATOR_MANAGER_MENU_ID = "generatorManagerMenuGui";
+
     public Menu(String id) {
         this.id = id;
     }
 
-    public void open(Player player){
-        open(player,null);
+    public void openToOther(Player playerMenu, Player playerToOpen) {
+        String processedTitle = processTitle(null);
+        Inventory gui = createInventory(playerMenu, processedTitle);
+
+        fillMenuItems(gui, null);
+        applySpecialMenuLogic(gui, playerMenu, null);
+
+        playerToOpen.openInventory(gui);
     }
 
-    public void open(Player player, PlayerGenerator generator){
-        String newRawTitle = rawTitle;
-        if (generator != null) newRawTitle = rawTitle.replace("%generator%", generator.getGenerator().getBaseGenerator().getName());
-        Inventory gui = Bukkit.createInventory(new MenuHolder(newRawTitle, id), size, TextUtils.toComponent(newRawTitle));
-        for (Map.Entry<Integer, ItemStack> entry : items.entrySet()){
-            ItemStack itemStack = entry.getValue().clone();
-            ItemMeta meta = itemStack.getItemMeta();
-            if (meta.hasLore() && generator != null){
-                List<Component> itemLore = meta.lore();
-                List<Component> newItemLore = new ArrayList<>();
-                meta.lore().clear();
-                for (Component s : itemLore){
-                    String newLore = MiniMessage.miniMessage().serialize(s)
-                            .replace("%generated%",generator.getGeneratedBlocks()+"")
-                            .replace("%storage%",generator.getGenerator().getBaseGenerator().getSpace()+"");
-                    newItemLore.add(TextUtils.toComponent(newLore));
-                }
-                meta.lore(newItemLore);
-                itemStack.setItemMeta(meta);
-            }
-            gui.setItem(entry.getKey(), itemStack);
-        }
+    public void open(Player player) {
+        open(player, null);
+    }
 
-        if (id.equalsIgnoreCase("generatorsMenuGui")){
+    public void open(Player player, PlayerGenerator generator) {
+        String processedTitle = processTitle(generator);
+        Inventory gui = createInventory(player, processedTitle);
 
-            if (!SkyGenerators.getInstance().getPlayerGeneratorManager().getGenerators(player).isEmpty())
-                for (PlayerGenerator playerGenerator : SkyGenerators.getInstance().getPlayerGeneratorManager().getGenerators(player)){
-                    gui.addItem(playerGenerator.getGenerator().getAsItemStack());
-                }
-
-            int i = 0;
-            while (i < gui.getSize()){
-                if (gui.getItem(i) == null || gui.getItem(i).getType() == Material.AIR){
-                    ItemStack itemStack = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
-                    itemStack.editMeta(itemMeta -> {
-                        itemMeta.displayName(TextUtils.toComponent("<yellow>Drag a generator to put it on work!"));
-                        itemMeta.getPersistentDataContainer().set(new NamespacedKey(SkyGenerators.getInstance(), "gui-item"), PersistentDataType.BOOLEAN, true);
-                        itemMeta.getPersistentDataContainer().set(new NamespacedKey(SkyGenerators.getInstance(), "generator-slot"), PersistentDataType.BOOLEAN, true);
-                        itemMeta.getPersistentDataContainer().set(new NamespacedKey(SkyGenerators.getInstance(), "gui-menu"), PersistentDataType.STRING, id);
-                            });
-                    gui.setItem(i, itemStack);
-                }
-                i++;
-            }
-        }
-        else if (id.equalsIgnoreCase("generatorManagerMenuGui")){
-            if (generator == null) return;
-
-            ((MenuHolder) gui.getHolder()).setInformation(generator.getGeneratorId().toString());
-
-            if (generator.getGeneratedBlocks() != 0){
-                int generatedAmount = generator.getGeneratedBlocks();
-                ItemStack itemStack = new ItemStack(generator.getGenerator().getBaseGenerator().getGeneratorMaterial());
-                int emptySlots = InventoryUtils.getEmptySlotsCount(gui) * 64;
-                if (generatedAmount <= emptySlots){
-                    int added = 0;
-                    while (added != generatedAmount) {
-                        gui.addItem(itemStack);
-                        added++;
-                    }
-                }else {
-                    while (InventoryUtils.hasEmptySlots(gui)) gui.addItem(itemStack);
-                }
-            }
-
-            if (InventoryUtils.hasEmptySlots(gui)){
-                int i = 0;
-                while (i < gui.getSize()){
-                    if (gui.getItem(i) == null || gui.getItem(i).getType() == Material.AIR){
-                        ItemStack itemStack = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-                        itemStack.editMeta(itemMeta -> {
-                            itemMeta.displayName(TextUtils.toComponent(" "));
-                            itemMeta.getPersistentDataContainer().set(new NamespacedKey(SkyGenerators.getInstance(), "gui-item"), PersistentDataType.BOOLEAN, true);
-                            itemMeta.getPersistentDataContainer().set(new NamespacedKey(SkyGenerators.getInstance(), "gui-menu"), PersistentDataType.STRING, id);
-                        });
-                        gui.setItem(i, itemStack);
-                    }
-                    i++;
-                }
-            }
-
-        }
+        fillMenuItems(gui, generator);
+        applySpecialMenuLogic(gui, player, generator);
 
         player.openInventory(gui);
     }
 
+    private String processTitle(PlayerGenerator generator) {
+        if (generator != null && rawTitle.contains("%generator%")) {
+            return rawTitle.replace("%generator%",
+                    generator.getGenerator().getBaseGenerator().getName());
+        }
+        return rawTitle;
+    }
+
+    private Inventory createInventory(Player player, String title) {
+        return Bukkit.createInventory(new MenuHolder(title, id), size, TextUtils.toComponent(title));
+    }
+
+    private void fillMenuItems(Inventory gui, PlayerGenerator generator) {
+        for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
+            ItemStack item = processItemStack(entry.getValue().clone(), generator);
+            gui.setItem(entry.getKey(), item);
+        }
+    }
+
+    private ItemStack processItemStack(ItemStack item, PlayerGenerator generator) {
+        if (generator == null) return item;
+
+        ItemMeta meta = item.getItemMeta();
+        if (meta.hasLore()) {
+            List<Component> processedLore = processLore(meta.lore(), generator);
+            meta.lore(processedLore);
+            item.setItemMeta(meta);
+        }
+        return item;
+    }
+
+    private List<Component> processLore(List<Component> lore, PlayerGenerator generator) {
+        List<Component> processedLore = new ArrayList<>();
+
+        for (Component line : lore) {
+            String serializedLine = MiniMessage.miniMessage().serialize(line);
+            String processedLine = replacePlaceholders(serializedLine, generator);
+            processedLore.add(TextUtils.toComponent(processedLine));
+        }
+
+        return processedLore;
+    }
+
+    private String replacePlaceholders(String text, PlayerGenerator generator) {
+        return text
+                .replace("%generated%", String.valueOf(generator.getGeneratedBlocks()))
+                .replace("%cost%", formatCost(generator))
+                .replace("%storage%", String.valueOf(generator.getGenerator().getBaseGenerator().getSpace()));
+    }
+
+    private String formatCost(PlayerGenerator generator) {
+        return generator.getGenerator().getBaseGenerator().getNextGeneratorRequirementMaterialName()
+                + " x" + generator.getGenerator().getBaseGenerator().getNextGeneratorRequirementAmount();
+    }
+
+    private void applySpecialMenuLogic(Inventory gui, Player player, PlayerGenerator generator) {
+        if (GENERATORS_MENU_ID.equalsIgnoreCase(id)) {
+            applyGeneratorsMenuLogic(gui, player);
+        } else if (GENERATOR_MANAGER_MENU_ID.equalsIgnoreCase(id) && generator != null) {
+            applyGeneratorManagerMenuLogic(gui, player, generator);
+        }
+    }
+
+    private void applyGeneratorsMenuLogic(Inventory gui, Player player) {
+        addPlayerGenerators(gui, player);
+        fillEmptySlotsWithGlass(gui,
+                Material.WHITE_STAINED_GLASS_PANE,
+                "<yellow>Drag a generator to put it on work!",
+                true);
+    }
+
+    private void addPlayerGenerators(Inventory gui, Player player) {
+        List<PlayerGenerator> playerGenerators = PLUGIN.getPlayerGeneratorManager().getGenerators(player);
+        for (PlayerGenerator generator : playerGenerators) {
+            gui.addItem(generator.getGenerator().getAsItemStack());
+        }
+    }
+
+    private void applyGeneratorManagerMenuLogic(Inventory gui, Player player, PlayerGenerator generator) {
+        // Store generator info in holder
+        MenuHolder holder = (MenuHolder) gui.getHolder();
+        holder.setInformation(generator.getGeneratorId().toString());
+
+        // Add generated blocks to inventory
+        addGeneratedBlocks(gui, generator);
+
+        // Fill remaining slots with black glass
+        fillEmptySlotsWithGlass(gui,
+                Material.BLACK_STAINED_GLASS_PANE,
+                " ",
+                false);
+    }
+
+    private void addGeneratedBlocks(Inventory gui, PlayerGenerator generator) {
+        int generatedAmount = generator.getGeneratedBlocks();
+        if (generatedAmount == 0) return;
+
+        ItemStack blockItem = new ItemStack(generator.getGenerator().getBaseGenerator().getGeneratorMaterial());
+        int emptySlots = InventoryUtils.getEmptySlotsCount(gui);
+        int maxStackable = emptySlots * 64;
+
+        if (generatedAmount <= maxStackable) {
+            // Add all generated blocks
+            for (int i = 0; i < generatedAmount; i++) {
+                gui.addItem(blockItem);
+            }
+        } else {
+            // Fill all empty slots
+            while (InventoryUtils.hasEmptySlots(gui)) {
+                gui.addItem(blockItem);
+            }
+        }
+    }
+
+    private void fillEmptySlotsWithGlass(Inventory gui, Material glassType, String displayName, boolean isGeneratorSlot) {
+        for (int i = 0; i < gui.getSize(); i++) {
+            if (isEmptySlot(gui, i)) {
+                ItemStack glass = createGlassItem(glassType, displayName, isGeneratorSlot);
+                gui.setItem(i, glass);
+            }
+        }
+    }
+
+    private boolean isEmptySlot(Inventory gui, int slot) {
+        return gui.getItem(slot) == null || gui.getItem(slot).getType() == Material.AIR;
+    }
+
+    private ItemStack createGlassItem(Material glassType, String displayName, boolean isGeneratorSlot) {
+        ItemStack glass = new ItemStack(glassType);
+        glass.editMeta(meta -> {
+            meta.displayName(TextUtils.toComponent(displayName));
+            meta.getPersistentDataContainer().set(GUI_ITEM_KEY, PersistentDataType.BOOLEAN, true);
+            meta.getPersistentDataContainer().set(GUI_MENU_KEY, PersistentDataType.STRING, id);
+
+            if (isGeneratorSlot) {
+                meta.getPersistentDataContainer().set(GENERATOR_SLOT_KEY, PersistentDataType.BOOLEAN, true);
+            }
+        });
+        return glass;
+    }
+
     @Override
     public Menu clone() {
-        Menu menu = null;
         try {
-            menu = (Menu) super.clone();
+            return (Menu) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to clone menu: " + id, e);
         }
-        return menu;
     }
 }

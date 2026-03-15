@@ -49,6 +49,7 @@ public class GeneratorConfig {
             int speed = generatorSection.getInt("speed",1);
             int space = generatorSection.getInt("space",100);
             String upgrade = generatorSection.getString("upgrade", "MAX");
+            String upgradeCost = generatorSection.getString("upgradeCost", "null");
 
             // placeholder
             List<String> newLore = new ArrayList<>();
@@ -65,6 +66,7 @@ public class GeneratorConfig {
             generator.setSpeed(speed);
             generator.setSpace(space);
             generator.setNextGeneratorUpgradeId(upgrade);
+            generator.setUpgradeRequirement(upgradeCost);
             generatorManager.getService().registerGenerator(generatorId,generator);
         }
     }

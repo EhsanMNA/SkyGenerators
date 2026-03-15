@@ -2,9 +2,11 @@ package me.ehsanmna.skyGenerators.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.azerima.skymaterials.utils.CustomItemManager;
 import me.ehsanmna.skyGenerators.SkyGenerators;
 import me.ehsanmna.skyGenerators.tasks.GeneratorTask;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -68,11 +70,46 @@ public class PlayerGenerator {
         }
     }
 
-    public void upgrade() {
+    public void upgrade(Player player) {
         String nextGeneratorId = generator.getBaseGenerator().getNextGeneratorUpgradeId();
         if (nextGeneratorId.equals("MAX")) return;
+
+        String materialName = generator.getBaseGenerator().getNextGeneratorRequirementMaterialName();
+        int amount = generator.getBaseGenerator().getNextGeneratorRequirementAmount();
+
+        switch (generator.getBaseGenerator().getNextGeneratorRequirementType()){
+            case MATERIAL -> {
+                if(!player.getInventory().containsAtLeast(new ItemStack(Material.valueOf(materialName)), amount)){
+                    player.playSound(player.getLocation(), Sound.BLOCK_SLIME_BLOCK_BREAK, 10 ,2);
+                    return;
+                }
+                player.getInventory().removeItemAnySlot(new ItemStack(Material.valueOf(materialName), amount));
+            }
+            case SKYMATERIAL -> {
+                if (CustomItemManager.getItemById(materialName) == null){
+                    SkyGenerators.getInstance().getLogger().severe("Could not get "+materialName+" custom material! please check config file!");
+                    return;
+                }
+                if (!CustomItemManager.hasItem(player, CustomItemManager.getItemById(materialName)) ||
+                        CustomItemManager.getAmount(player, CustomItemManager.getItemById(materialName)) < amount){
+                    if (SkyGenerators.isDebugMode()){
+                        player.sendMessage("Has item: "+ CustomItemManager.hasItem(player, CustomItemManager.getItemById(materialName)));
+                        player.sendMessage("Amount: "+ CustomItemManager.getItemById(materialName));
+                        player.sendMessage("Data: A:"+amount + ", B:"+materialName);
+                    }
+                    player.playSound(player.getLocation(), Sound.BLOCK_SLIME_BLOCK_BREAK, 10 ,2);
+                    return;
+                }
+                ItemStack item = CustomItemManager.getItemById(materialName).getItemStack().clone();
+                item.setAmount(amount);
+                player.getInventory().removeItemAnySlot(item);
+            }
+        }
+
         Generator newGenerator = SkyGenerators.getInstance().getGeneratorManager().getGenerator(nextGeneratorId, generatorId);
         setGenerator(newGenerator);
+        SkyGenerators.getInstance().getGuiManager().openGeneratorsMenu(player);
+        SkyGenerators.getInstance().getLogger().info("SKY GENERATORS | "+playerName+" generator has been upgraded into "+generator.getBaseGenerator().getName()+"!");
     }
 
     public void initilize(){

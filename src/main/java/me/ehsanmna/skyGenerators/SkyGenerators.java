@@ -3,7 +3,9 @@ package me.ehsanmna.skyGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import me.ehsanmna.skyGenerators.commands.SkyGeneratorCommand;
+import me.ehsanmna.skyGenerators.manager.ConfigManager;
 import me.ehsanmna.skyGenerators.listeners.GUIListener;
+import me.ehsanmna.skyGenerators.listeners.GeneratorPutListener;
 import me.ehsanmna.skyGenerators.manager.GUIManager;
 import me.ehsanmna.skyGenerators.manager.GeneratorManager;
 import me.ehsanmna.skyGenerators.manager.PlayerGeneratorManager;
@@ -19,6 +21,7 @@ public final class SkyGenerators extends JavaPlugin {
     private PlayerGeneratorManager playerGeneratorManager;
     private GeneratorManager generatorManager;
     private GUIManager guiManager;
+    private ConfigManager configManager;
 
     @Getter
     @Setter
@@ -30,9 +33,12 @@ public final class SkyGenerators extends JavaPlugin {
         saveDefaultConfig();
 
         getLogger().info("Loading managers and services!");
+        configManager = new ConfigManager();
         generatorManager = new GeneratorManager();
         playerGeneratorManager = new PlayerGeneratorManager();
         guiManager = new GUIManager();
+
+        MessageUtils.initialize();
 
         getLogger().info(String.format("Registered %s generators and %s players generators!",
                 generatorManager.getService().getGenerators().size(), playerGeneratorManager.getService().getGenerators().size()));
@@ -54,6 +60,7 @@ public final class SkyGenerators extends JavaPlugin {
 
     private void registerListener(){
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
+        getServer().getPluginManager().registerEvents(new GeneratorPutListener(), this);
     }
 
     private void registerCommands(){

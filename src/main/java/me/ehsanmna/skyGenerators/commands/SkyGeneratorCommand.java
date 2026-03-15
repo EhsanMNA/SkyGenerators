@@ -2,8 +2,8 @@ package me.ehsanmna.skyGenerators.commands;
 
 import me.ehsanmna.skyGenerators.SkyGenerators;
 import me.ehsanmna.skyGenerators.models.BaseGenerator;
-import me.ehsanmna.skyGenerators.models.Generator;
 import me.ehsanmna.skyGenerators.utils.InventoryUtils;
+import me.ehsanmna.skyGenerators.utils.MessageUtils;
 import me.ehsanmna.skyGenerators.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -22,11 +22,11 @@ public class SkyGeneratorCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-
         int length = args.length;
 
         if (length == 0){
-            sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| TO get help type /sg help!"));
+            sender.sendMessage(TextUtils.toComponent(
+                    MessageUtils.getMessage("command-generator-info","<dark_red>SkyGenerators <white>| To get help type /sg help!")));
             return true;
         }
 
@@ -36,35 +36,37 @@ public class SkyGeneratorCommand implements CommandExecutor {
         switch (subcommand){
             case "list":
                 if (sender instanceof Player player && !player.hasPermission("skygenerator.command.list")){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!"));
+                    sender.sendMessage(TextUtils.toComponent(
+                            MessageUtils.getMessage("command-no-permission", "<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!")));
                     return true;
                 }
 
                 if (length == 1){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>|"));
+                    sender.sendMessage(TextUtils.toComponent("<dark_red><bold>SkyGenerators <white>|"));
                     for (BaseGenerator generator : skyGenerators.getGeneratorManager().getService().getGenerators().values())
                         sender.sendMessage(TextUtils.toComponent("<white> | "+generator.getName()+"<gray> "+generator.getId()));
                 }else if (length == 2){
                     if (args[1].equalsIgnoreCase("gui"))
                         if (sender instanceof Player player) openListGUI(player);
-                    else sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| Command not found!!"));
+                        else sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-not-found","<dark_red>SkyGenerators <white>| Command not found!")));
                 }
 
                 break;
 
             case "reload":
                 skyGenerators.reloadConfiguration();
-                sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| Configuration has been reloaded!"));
+                sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-reload-success", "<dark_red>SkyGenerators <white>| Configuration has been reloaded!")));
                 break;
 
             case "give":
                 if (sender instanceof Player player && !player.hasPermission("skygenerator.command.give")){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!"));
+                    sender.sendMessage(TextUtils.toComponent(
+                            MessageUtils.getMessage("command-no-permission", "<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!")));
                     return true;
                 }
 
                 if (length <= 2){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| /sg give <green><player> <yellow><generator>"));
+                    sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-give-usage", "<white>| /sg give <green><player> <yellow><generator>")));
                     return true;
                 }
 
@@ -72,14 +74,16 @@ public class SkyGeneratorCommand implements CommandExecutor {
                 String providedGeneratorId = args[2].toLowerCase();
 
                 if (Bukkit.getPlayer(targetPlayerId) == null || !Objects.requireNonNull(Bukkit.getPlayer(targetPlayerId)).isOnline()){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| <red>"+targetPlayerId+" is not online!"));
+                    sender.sendMessage(TextUtils.toComponent(
+                            MessageUtils.getMessage("command-player-not-found","<dark_red>SkyGenerators <white>| <red>%player_name% is not online!").replace("%player_name%",targetPlayerId)));
                     return true;
                 }
 
                 Player targetPlayer = Bukkit.getPlayer(targetPlayerId);
 
                 if (!skyGenerators.getGeneratorManager().getService().getGenerators().containsKey(providedGeneratorId)){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| <red>"+providedGeneratorId+" is not found!"));
+                    sender.sendMessage(TextUtils.toComponent(
+                            MessageUtils.getMessage("command-generator-not-found","<dark_red>SkyGenerators <white>| <red>%generator_name% is not found!").replace("%generator_name%",providedGeneratorId)));
                     return true;
                 }
 
@@ -88,66 +92,69 @@ public class SkyGeneratorCommand implements CommandExecutor {
                     targetPlayer.getInventory().addItem(item);
                 }else targetPlayer.getWorld().dropItem(targetPlayer.getLocation(), item);
 
-                sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| <green>Item has been successfully given!"));
+                sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-give-success", "<white>| <green>Item has been successfully given!")));
 
                 break;
 
             case "menu":
                 if (!(sender instanceof Player player)){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| Sorry, but you only players can do this!"));
+                    sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-player-only", "<white>| Sorry, but only players can do this!")));
                     return true;
                 }
 
                 if (!player.hasPermission("skygenerator.command.menu")){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!"));
+                    sender.sendMessage(TextUtils.toComponent(
+                            MessageUtils.getMessage("command-no-permission", "<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!")));
                     return true;
                 }
 
                 if (length == 1) skyGenerators.getGuiManager().openGeneratorsMenu(player);
                 else if (length == 2) {
-                    targetPlayerId = args[1];
-                    if (Bukkit.getPlayer(targetPlayerId) == null || !Objects.requireNonNull(Bukkit.getPlayer(targetPlayerId)).isOnline()){
-                        sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| <red>"+targetPlayerId+" is not online!"));
+                    String targetPlayerIdMenu = args[1];
+                    if (Bukkit.getPlayer(targetPlayerIdMenu) == null || !Objects.requireNonNull(Bukkit.getPlayer(targetPlayerIdMenu)).isOnline()){
+                        sender.sendMessage(TextUtils.toComponent(
+                                MessageUtils.getMessage("command-player-not-found","<dark_red>SkyGenerators <white>| <red>%player_name% is not online!").replace("%player_name%",targetPlayerIdMenu)));
+                        return true;
+                    }
+                    if (!player.hasPermission("skygenerator.command.admin")){
+                        sender.sendMessage(TextUtils.toComponent(
+                                MessageUtils.getMessage("command-no-permission", "<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!")));
                         return true;
                     }
 
-
+                    skyGenerators.getGuiManager().openGeneratorMenuOfPlayer(Bukkit.getPlayer(targetPlayerIdMenu) ,player);
                 }
 
                 break;
 
             case "debug":
                 if (!(sender instanceof Player player)){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| Sorry, but you only players can do this!"));
+                    sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-player-only", "<white>| Sorry, but only players can do this!")));
                     return true;
                 }
 
                 if (!player.hasPermission("skygenerator.command.debug")){
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!"));
+                    sender.sendMessage(TextUtils.toComponent(
+                            MessageUtils.getMessage("command-no-permission", "<dark_red>SkyGenerators <white>| Sorry, but you don't have permission to do this!")));
                     return true;
                 }
 
                 if (SkyGenerators.isDebugMode()){
                     SkyGenerators.getInstance().getConfig().set("debug", false);
                     SkyGenerators.setDebugMode(false);
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>| Debug mode set to false!"));
+                    sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-debug-false", "<red>| Debug mode set to false!")));
                 }else {
                     SkyGenerators.getInstance().getConfig().set("debug", true);
                     SkyGenerators.setDebugMode(true);
-                    sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <green>| Debug mode set to true!"));
+                    sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-debug-true", "<green>| Debug mode set to true!")));
                 }
 
                 break;
 
             case "help":
             default:
-                sender.sendMessage(TextUtils.toComponent("<dark_red>SkyGenerators <white>|"));
-                sender.sendMessage(TextUtils.toComponent("<white> | /sg help"));
-                sender.sendMessage(TextUtils.toComponent("<white> | /sg list <gray>[OPTIONAL:gui]"));
-                sender.sendMessage(TextUtils.toComponent("<white> | /sg give <green><player> <yellow><generator>"));
-                sender.sendMessage(TextUtils.toComponent("<white> | /sg reload"));
-                sender.sendMessage(TextUtils.toComponent("<white> | /sg debug"));
-                sender.sendMessage(TextUtils.toComponent("<white> | /sg menu <gray>[OPTIONAL:playerName]"));
+                sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-help",
+                        "<dark_red>SkyGenerators <white>|\n<white> | /sg help\n<white> | /sg list <gray>[OPTIONAL:gui]\n<white> | /sg give <green><player> <yellow><generator>\n<white> | /sg reload\n<white> | /sg debug\n<white> | /sg menu <gray>[OPTIONAL:playerName]")));
                 break;
         }
 
@@ -155,12 +162,10 @@ public class SkyGeneratorCommand implements CommandExecutor {
     }
 
     private void openListGUI(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 54, TextUtils.toComponent("         <dark_red>Generators list"));
+        Inventory gui = Bukkit.createInventory(null, 54, TextUtils.toComponent(MessageUtils.getMessage("gui-generator-list","         <dark_red>Generators list")));
         for (BaseGenerator generator : skyGenerators.getGeneratorManager().getService().getGenerators().values())
             gui.addItem(skyGenerators.getGeneratorManager().getGenerator(generator).getAsItemStack());
 
         player.openInventory(gui);
     }
-
-
 }

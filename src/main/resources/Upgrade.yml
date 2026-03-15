@@ -1,0 +1,21 @@
+GeneratorCompressorUpgrade:
+  name: "Compressor Upgrade"
+  displayname: "<aqua>Compressor <white>Upgrade"
+  material: LODESTONE
+  glow: true
+  lore:
+    - "<white> | <gray>Turns every stack of item into compressed form!"
+  build:
+    input: 64
+    output: "SkyMaterial:compressed_%material%:1"
+
+GeneratorBlockUpgrade:
+  name: "Block compressor Upgrade"
+  displayname: "<aqua>Block Compressor <white>Upgrade"
+  material: LODESTONE
+  glow: true
+  lore:
+    - "<white> | <gray>Turns every stack of item into block form!"
+  build:
+    input: 64
+    output: "Material:%material%_block:1"

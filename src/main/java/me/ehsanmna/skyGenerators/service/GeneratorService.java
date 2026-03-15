@@ -3,7 +3,6 @@ package me.ehsanmna.skyGenerators.service;
 import lombok.Getter;
 import me.ehsanmna.skyGenerators.SkyGenerators;
 import me.ehsanmna.skyGenerators.models.BaseGenerator;
-import me.ehsanmna.skyGenerators.models.Generator;
 
 import java.util.HashMap;
 import java.util.Map;

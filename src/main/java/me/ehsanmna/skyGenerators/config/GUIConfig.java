@@ -9,7 +9,9 @@ import me.ehsanmna.skyGenerators.utils.TextUtils;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -82,7 +84,13 @@ public class GUIConfig {
                 itemMeta.displayName(TextUtils.toComponent(section.getString("name","<red>Ich bin Nein")));
                 itemMeta.setCustomModelData(section.getInt("customModelData",0));
                 itemMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, "gui-item"), PersistentDataType.BOOLEAN, true);
+                if (section.getBoolean("glow", false)) {
+                    itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1, false);
+                    itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                }
                 if (section.contains("lore")) itemMeta.lore(TextUtils.toComponent(section.getStringList("lore")));
+                if (section.contains("action") && section.getString("action","").equalsIgnoreCase("upgrade"))
+                    itemMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, "upgrade-action"), PersistentDataType.BOOLEAN, true);
             });
             return itemStack;
         }catch (Exception error){
