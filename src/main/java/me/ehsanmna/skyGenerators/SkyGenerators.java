@@ -44,7 +44,7 @@ public final class SkyGenerators extends JavaPlugin {
         getLogger().info(String.format("Registered %s generators and %s players generators!",
                 generatorManager.getService().getGenerators().size(), playerGeneratorManager.getService().getGenerators().size()));
 
-        new PlayerGeneratorSaveTask().runTaskTimer(this, 0, 1800 * 20);
+        if (configManager.isAutoSave()) new PlayerGeneratorSaveTask().runTaskTimer(this, 0, configManager.getAutoSavePeriod() * 20L);
 
         getLogger().info("Registering the commands and the listeners!");
         registerListener();

@@ -1,5 +1,5 @@
 name: SkyGenerators
-version: '1.0'
+version: '${project.version}'
 main: me.ehsanmna.skyGenerators.SkyGenerators
 api-version: '1.17'
 prefix: SkyGenerator

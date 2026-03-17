@@ -5,6 +5,10 @@ debug: false
 # should we generate blocks even if player is offline ?
 offlineGenerator: true
 
+autoSave: true
+autoSave-Period: 1800 # seconds
+
+# ranks - permission based
 generatorAmount:
   default: 5
   astra: 6

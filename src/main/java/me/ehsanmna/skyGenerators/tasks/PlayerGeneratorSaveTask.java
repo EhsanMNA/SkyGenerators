@@ -10,5 +10,6 @@ public class PlayerGeneratorSaveTask extends BukkitRunnable {
     @Override
     public void run() {
         skyGenerators.getPlayerGeneratorManager().getConfig().save();
+        skyGenerators.getLogger().info("Auto saved player generators!");
     }
 }
