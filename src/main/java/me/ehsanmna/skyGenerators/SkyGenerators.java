@@ -9,6 +9,7 @@ import me.ehsanmna.skyGenerators.listeners.GeneratorPutListener;
 import me.ehsanmna.skyGenerators.manager.GUIManager;
 import me.ehsanmna.skyGenerators.manager.GeneratorManager;
 import me.ehsanmna.skyGenerators.manager.PlayerGeneratorManager;
+import me.ehsanmna.skyGenerators.tasks.PlayerGeneratorSaveTask;
 import me.ehsanmna.skyGenerators.utils.MessageUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -43,6 +44,8 @@ public final class SkyGenerators extends JavaPlugin {
         getLogger().info(String.format("Registered %s generators and %s players generators!",
                 generatorManager.getService().getGenerators().size(), playerGeneratorManager.getService().getGenerators().size()));
 
+        new PlayerGeneratorSaveTask().runTaskTimer(this, 0, 1800 * 20);
+
         getLogger().info("Registering the commands and the listeners!");
         registerListener();
         registerCommands();
@@ -56,6 +59,7 @@ public final class SkyGenerators extends JavaPlugin {
         getPlayerGeneratorManager().getConfig().save();
         getGuiManager().getGuiConfig().save();
         MessageUtils.getMessageConfig().save();
+        getLogger().info("Successfully unloaded SKyGenerator plugin!");
     }
 
     private void registerListener(){
