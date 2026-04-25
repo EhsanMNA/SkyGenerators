@@ -3,10 +3,13 @@ package me.ehsanmna.skyGenerators.listeners;
 import me.ehsanmna.skyGenerators.SkyGenerators;
 import me.ehsanmna.skyGenerators.events.SkyGeneratorInputEvent;
 import me.ehsanmna.skyGenerators.events.SkyGeneratorPreInputEvent;
+import me.ehsanmna.skyGenerators.events.SkyGeneratorUpgradeInputEvent;
+import me.ehsanmna.skyGenerators.events.SkyGeneratorUpgradePreInputEvent;
 import me.ehsanmna.skyGenerators.gui.Menu;
 import me.ehsanmna.skyGenerators.gui.MenuAction;
 import me.ehsanmna.skyGenerators.gui.MenuHolder;
 import me.ehsanmna.skyGenerators.models.Generator;
+import me.ehsanmna.skyGenerators.models.upgrade.GeneratorUpgrade;
 import me.ehsanmna.skyGenerators.models.PlayerGenerator;
 import me.ehsanmna.skyGenerators.utils.TextUtils;
 import org.bukkit.Bukkit;
@@ -35,6 +38,8 @@ public class GUIListener implements Listener {
     private NamespacedKey generatorSlotKey;
     private NamespacedKey upgradeActionKey;
     private NamespacedKey generatorNameKey;
+    private NamespacedKey generatorUpgradeKey;
+    private NamespacedKey upgradeSlotKey;
 
     // Menu identifiers
     private static final String GENERATORS_MENU_ID = "generatorsMenuGui";
@@ -51,6 +56,8 @@ public class GUIListener implements Listener {
         generatorSlotKey = new NamespacedKey(plugin, "generator-slot");
         upgradeActionKey = new NamespacedKey(plugin, "upgrade-action");
         generatorNameKey = new NamespacedKey(plugin, "generator-name");
+        generatorUpgradeKey = new NamespacedKey(plugin, "generator-upgrade");
+        upgradeSlotKey = new NamespacedKey(plugin, "upgrade-slot");
     }
 
 
@@ -264,16 +271,22 @@ public class GUIListener implements Listener {
                                                  MenuHolder menuHolder, int slot,
                                                  ItemStack clickedItem, ItemStack cursorItem) {
 
-        // Cancel if trying to place item or click empty slot
-        if (isInvalidManagerMenuClick(cursorItem, clickedItem)) {
-            event.setCancelled(true);
-            return;
-        }
-
         UUID generatorId = UUID.fromString(menuHolder.getInformation());
         PlayerGenerator playerGenerator = plugin.getPlayerGeneratorManager().getGeneratorById(generatorId);
 
         if (isInvalidGenerator(playerGenerator)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        // Handle upgrader item put
+        if (isUpgraderItem(clickedItem) || isUpgraderItem(cursorItem)){
+            handlePlayerGeneratorUpgrader(event, player, clickedItem, playerGenerator);
+            return;
+        }
+
+        // Cancel if trying to place item or click empty slot (except upgrader put)
+        if (isInvalidManagerMenuClick(cursorItem, clickedItem)) {
             event.setCancelled(true);
             return;
         }
@@ -330,13 +343,73 @@ public class GUIListener implements Listener {
                                           PlayerGenerator generator,
                                           ItemStack clickedItem) {
         int amount = clickedItem.getAmount();
-        generator.setGeneratedBlocks(generator.getGeneratedBlocks() - amount);
+        if (clickedItem.equals(generator.getGenerator().getBaseGenerator().getGeneratorMaterial())){
+            generator.setGeneratedBlocks(generator.getGeneratedBlocks() - amount);
+        }else {
+            for (GeneratorUpgrade generatorUpgrade : generator.getUpgrades()){
+                if (generatorUpgrade.getUpgradeBuild().getOutputStack().equals(clickedItem)){
+                    generatorUpgrade.getUpgradeBuild().setGeneratedAmount(generatorUpgrade.getUpgradeBuild().getGeneratedAmount() - amount);
+                }
+            }
+        }
+    }
+
+    private boolean isUpgraderItem(ItemStack itemStack){
+        System.out.println("checking for is upgrader item");
+        if (itemStack == null || itemStack.getType() == Material.AIR) return false;
+        return itemStack.getItemMeta().getPersistentDataContainer().has(upgradeSlotKey) || itemStack.getItemMeta().getPersistentDataContainer().has(generatorUpgradeKey);
+    }
+
+    private void handlePlayerGeneratorUpgrader(InventoryClickEvent event,
+                                               Player player,
+                                               ItemStack clickedItem,
+                                               PlayerGenerator playerGenerator) {
+        event.setCancelled(true);
+
+        if (event.getCursor() == null || event.getCursor().getType() == Material.AIR) {
+            // clicked with out any items, handle the upgrade pickup
+            if (!clickedItem.getItemMeta().getPersistentDataContainer().has(generatorUpgradeKey)) return;
+            handleGeneratorUpgradePickup(event, player, clickedItem, playerGenerator);
+            return;
+        }
+
+        System.out.println("putttt");
+
+        GeneratorUpgrade generatorUpgrade = plugin.getGeneratorUpgradeManager().getGeneratorUpgradeFromItem(event.getCursor(), playerGenerator);
+        SkyGeneratorUpgradePreInputEvent preInputEvent = new SkyGeneratorUpgradePreInputEvent(player, playerGenerator, generatorUpgrade);
+        Bukkit.getPluginManager().callEvent(preInputEvent);
+        if (preInputEvent.isCancelled()) return;
+        handleGeneratorUpgradePut(event, player, playerGenerator, event.getCursor());
+
+        SkyGeneratorUpgradeInputEvent inputEvent = new SkyGeneratorUpgradeInputEvent(player, playerGenerator, generatorUpgrade);
+        Bukkit.getPluginManager().callEvent(inputEvent);
+    }
+
+    private void handleGeneratorUpgradePut(InventoryClickEvent event, Player player, PlayerGenerator playerGenerator, ItemStack cursor) {
+        event.getClickedInventory().setItem(event.getSlot(), cursor);
+        player.setItemOnCursor(null);
+        GeneratorUpgrade generatorUpgrade = plugin.getGeneratorUpgradeManager().getGeneratorUpgradeFromItem(cursor, playerGenerator);
+        generatorUpgrade.setActive(true);
+        generatorUpgrade.setPlayerGenerator(playerGenerator);
+        playerGenerator.getUpgrades().add(generatorUpgrade);
+    }
+
+    private void handleGeneratorUpgradePickup(InventoryClickEvent event, Player player, ItemStack clickedItem, PlayerGenerator playerGenerator) {
+//        player.getInventory().addItem(clickedItem);
+        event.getClickedInventory().setItem(event.getSlot(), null);
+        plugin.getGuiManager().openGeneratorManagerMenu(player, playerGenerator);
+        GeneratorUpgrade generatorUpgrade = plugin.getGeneratorUpgradeManager().getGeneratorUpgradeFromItem(clickedItem, playerGenerator);
+        generatorUpgrade.setPlayerGenerator(null);
+        generatorUpgrade.pickup(player);
+        playerGenerator.getUpgrades().remove(generatorUpgrade);
     }
 
     private void handlePlayerInventoryClick(InventoryClickEvent event, ItemStack clickedItem) {
         // Cancel if trying to move non-generator items while GUI is open
-        if (!isGeneratorItem(clickedItem)) {
-            event.setCancelled(true);
-        }
+        if (clickedItem == null) return;
+        if (isUpgraderItem(event.getCursor()) || isGeneratorItem(event.getCurrentItem())) return;
+        if (isGeneratorItem(clickedItem) || isUpgraderItem(clickedItem)) return;
+
+        event.setCancelled(true);
     }
 }

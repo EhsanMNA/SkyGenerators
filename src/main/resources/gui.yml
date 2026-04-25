@@ -119,7 +119,7 @@ generatorManagerMenuGui:
     9:
       material: "YELLOW_STAINED_GLASS_PANE"
       name: "<yellow>Upgrade slot"
-      action: upgrade_slot
+      action: upgrade_slot:1
       lore:
         - "<white> | <gray>Click with an upgrade item to add"
         - "<white> | <gray>new upgrades into Generator!"
@@ -133,7 +133,7 @@ generatorManagerMenuGui:
     18:
       material: "YELLOW_STAINED_GLASS_PANE"
       name: "<yellow>Upgrade slot"
-      action: upgrade_slot
+      action: upgrade_slot:2
       lore:
         - "<white> | <gray>Click with an upgrade item to add"
         - "<white> | <gray>new upgrades into Generator!"

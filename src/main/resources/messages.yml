@@ -8,13 +8,13 @@ command-player-not-found: "<dark_red>SkyGenerators <white>| <red>%player_name% i
 command-help: "<dark_red>SkyGenerators <white>| \n 
     <white> | /sg help \n 
     <white> | /sg list <gray>[OPTIONAL:gui] \n 
-    <white> | /sg give <green><player> <yellow><generator> \n 
+    <white> | /sg give <green><player> <yellow><generator, generator-upgrade> \n 
     <white> | /sg reload \n 
     <white> | /sg debug \n 
     <white> | /sg menu <gray>[OPTIONAL:playerName]"
 command-reload-success: "<dark_red>SkyGenerators <white>| Configuration has been reloaded!"
 command-give-usage: "<white>| /sg give <green><player> <yellow><generator>"
-command-give-success: "<white>| <green>Item has been successfully given!"
+command-give-success: "<white>| <green>%item% has been successfully given to %player%!"
 command-player-only: "<white>| Sorry, but only players can do this!"
 command-debug-false: "<red>| Debug mode set to false!"
 command-debug-true: "<green>| Debug mode set to true!"
@@ -22,6 +22,7 @@ command-debug-true: "<green>| Debug mode set to true!"
 # generators
 generator-collect-inventory-full: "<red>Sorry but your inventory is full!"
 generator-put-full: "<dark_red>SkyGenerators <white>| <red>Sorry but your generators amount is reached! if you want to use more generator, purchase ranks from <yellow>/store<white>!"
+generator-upgrade-put-contains: "<dark_red>SkyGenerators <white>| <red>Sorry but your generator already have this upgrade!"
 
 # GUI
 gui-generator-list: "         <dark_red>Generators list"

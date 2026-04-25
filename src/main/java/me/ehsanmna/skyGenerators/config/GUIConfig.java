@@ -67,7 +67,8 @@ public class GUIConfig {
                         actionName = itemSection.getString("action").split("-")[0];
                         menuAction = MenuAction.valueOf(actionName.toUpperCase());
                         menuAction.setArgument(itemSection.getString("action").split("-")[1]);
-                    }else menuAction = MenuAction.valueOf(actionName.toUpperCase());
+                    }else menuAction = MenuAction.valueOf(actionName.toUpperCase().contains(":") ?
+                            actionName.toUpperCase().split(":")[0] : actionName.toUpperCase());
                     menu.getActions().put(slot, menuAction);
                 }
             }
@@ -89,8 +90,14 @@ public class GUIConfig {
                     itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 }
                 if (section.contains("lore")) itemMeta.lore(TextUtils.toComponent(section.getStringList("lore")));
-                if (section.contains("action") && section.getString("action","").equalsIgnoreCase("upgrade"))
-                    itemMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, "upgrade-action"), PersistentDataType.BOOLEAN, true);
+                if (section.contains("action")){
+                    String action = section.getString("action","");
+                    if (action.equalsIgnoreCase("upgrade"))
+                        itemMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, "upgrade-action"), PersistentDataType.BOOLEAN, true);
+                    else if (action.contains("upgrade_slot")){
+                        itemMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, "upgrade-slot"), PersistentDataType.STRING, action);
+                    }
+                }
             });
             return itemStack;
         }catch (Exception error){

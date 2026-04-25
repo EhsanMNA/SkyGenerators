@@ -1,6 +1,7 @@
 package me.ehsanmna.skyGenerators.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.ehsanmna.skyGenerators.utils.TextUtils;
 import net.kyori.adventure.text.Component;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class BaseGenerator {
 
     String id;

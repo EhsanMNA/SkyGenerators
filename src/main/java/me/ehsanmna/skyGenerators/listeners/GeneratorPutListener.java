@@ -2,11 +2,16 @@ package me.ehsanmna.skyGenerators.listeners;
 
 import me.ehsanmna.skyGenerators.SkyGenerators;
 import me.ehsanmna.skyGenerators.events.SkyGeneratorPreInputEvent;
+import me.ehsanmna.skyGenerators.events.SkyGeneratorUpgradePreInputEvent;
+import me.ehsanmna.skyGenerators.models.upgrade.GeneratorUpgrade;
+import me.ehsanmna.skyGenerators.models.PlayerGenerator;
 import me.ehsanmna.skyGenerators.utils.MessageUtils;
 import me.ehsanmna.skyGenerators.utils.TextUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.util.List;
 
 public class GeneratorPutListener implements Listener {
 
@@ -19,8 +24,7 @@ public class GeneratorPutListener implements Listener {
         int acceptableAmount = 5;
 
         for (String s : SkyGenerators.getInstance().getConfigManager().getGeneratorMapSize().keySet())
-            if (player.hasPermission("skygenerator.rank."+s) &&
-                    acceptableAmount < SkyGenerators.getInstance().getConfigManager().getGeneratorMapSize().get(s))
+            if (player.hasPermission("skygenerator.rank."+s) && acceptableAmount < SkyGenerators.getInstance().getConfigManager().getGeneratorMapSize().get(s))
                 acceptableAmount =  SkyGenerators.getInstance().getConfigManager().getGeneratorMapSize().get(s);
 
         if (acceptableAmount < generatorAmount + 1){
@@ -28,6 +32,20 @@ public class GeneratorPutListener implements Listener {
             player.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("generator-put-full",
                     "<dark_red>SkyGenerators <white>| <red>Sorry but your generators amount is reached! if you want to use more generator, " +
                             "purchase ranks from <yellow>/store<white>!")));
+        }
+    }
+
+    @EventHandler
+    public void onUpgradePut(SkyGeneratorUpgradePreInputEvent event){
+        Player player = event.getPlayer();
+        PlayerGenerator playerGenerator = event.getGenerator();
+        List<GeneratorUpgrade> generatorUpgrades = playerGenerator.getUpgrades();
+
+        if (generatorUpgrades.contains(event.getGeneratorUpgrade())) {
+            event.setCancelled(true);
+            player.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("generator-upgrade-put-contains",
+                    "<dark_red>SkyGenerators <white>| <red>Sorry but your generator already have this upgrade!")));
+            return;
         }
     }
 

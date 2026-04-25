@@ -4,12 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 import me.azerima.skymaterials.utils.CustomItemManager;
 import me.ehsanmna.skyGenerators.SkyGenerators;
+import me.ehsanmna.skyGenerators.models.upgrade.GeneratorUpgrade;
+import me.ehsanmna.skyGenerators.models.upgrade.GeneratorUpgradeBuild;
 import me.ehsanmna.skyGenerators.tasks.GeneratorTask;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -17,22 +21,14 @@ import java.util.UUID;
 @Setter
 public class PlayerGenerator {
 
-    private final UUID generatorId;
+    private final UUID generatorId; // Generator uuid is same with this
     private String playerName;
     private Generator generator;
     private int generatedBlocks;
     private GeneratorTask generatorTask;
+    private List<GeneratorUpgrade> upgrades = new ArrayList<>();
     private boolean active = true;
 
-    public PlayerGenerator() {
-        generatorId = UUID.randomUUID();
-//        initilize();
-    }
-
-    public PlayerGenerator(UUID generatorId) {
-        this.generatorId = generatorId;
-//        initilize();
-    }
 
     public PlayerGenerator(Generator generator) {
         this.generatorId = generator.getId();
@@ -40,17 +36,31 @@ public class PlayerGenerator {
     }
 
     public void generate(int minutes){
-        if (generatedBlocks + (generator.getBaseGenerator().getSpeed() * minutes) > generator.getBaseGenerator().getSpace()){
-            generatedBlocks = generator.getBaseGenerator().getSpace();
-            return;
-        }
+        // check for empty space
+        if (getAllGenerated() + (generator.getBaseGenerator().getSpeed() * minutes) > getSpace()) return;
+
         generatedBlocks = (int) (generatedBlocks + (generator.getBaseGenerator().getSpeed() * minutes));
+
+        // also call generate functions for upgrades
+        if (!upgrades.isEmpty()){
+            for (GeneratorUpgrade generatorUpgrade : upgrades) {
+                if (generatorUpgrade.getUpgradeBuild() == null) continue;
+                generatorUpgrade.getUpgradeBuild().generate();
+            }
+        }
     }
 
     public void generate(){generate(1);}
 
     public void collect(Player player){
+        if (!upgrades.isEmpty())
+            for (GeneratorUpgrade generatorUpgrade : upgrades){
+                if (generatorUpgrade.getUpgradeBuild() == null) continue;
+                generatorUpgrade.getUpgradeBuild().collect(player);
+            }
+
         for (int i = 0; i < player.getInventory().getSize(); i++){
+            if (i > 35) break;
             ItemStack item =  player.getInventory().getItem(i);
             if (item == null || item.getType() == Material.AIR){
                 int amount = Math.min(generatedBlocks, 64);
@@ -109,22 +119,48 @@ public class PlayerGenerator {
         Generator newGenerator = SkyGenerators.getInstance().getGeneratorManager().getGenerator(nextGeneratorId, generatorId);
         setGenerator(newGenerator);
         SkyGenerators.getInstance().getGuiManager().openGeneratorsMenu(player);
-        SkyGenerators.getInstance().getLogger().info("SKY GENERATORS | "+playerName+" generator has been upgraded into "+generator.getBaseGenerator().getName()+"!");
+        SkyGenerators.getInstance().getLogger().info(playerName+" generator has been upgraded into "+generator.getBaseGenerator().getName()+"!");
     }
 
     public void initilize(){
         generatorTask = new GeneratorTask(this);
         generatorTask.runTaskTimer(SkyGenerators.getInstance(), 1200, 20L * 60);
+        for (GeneratorUpgrade generatorUpgrade : upgrades) generatorUpgrade.setActive(true);
     }
 
     public void pickup(Player player) {
+        player.getInventory().addItem(generator.getAsItemStack());
         collect(player);
+        for (GeneratorUpgrade generatorUpgrade : upgrades) {
+            player.getInventory().addItem(generatorUpgrade.getAsItemStack());
+            generatorUpgrade.setActive(false);
+        }
+        upgrades.clear();
         active = false;
         generatorTask.cancel();
-        player.getInventory().addItem(generator.getAsItemStack());
-        player.closeInventory();
         SkyGenerators.getInstance().getPlayerGeneratorManager().removeGenerator(player, generatorId);
         SkyGenerators.getInstance().getGuiManager().openGeneratorsMenu(player);
+    }
+
+    public int getSpace(){
+        int space = generator.getBaseGenerator().getSpace();
+        if (upgrades.isEmpty()) return space;
+        for (GeneratorUpgrade generatorUpgrade : upgrades){
+            if (generatorUpgrade.getUpgradeBuild() != GeneratorUpgradeBuild.STORAGE) continue;
+            space += generatorUpgrade.getUpgradeBuild().getStorage();
+        }
+        return space;
+    }
+
+    public int getAllGenerated(){
+        int allGenerated = generatedBlocks;
+        if (!upgrades.isEmpty())
+            for (GeneratorUpgrade generatorUpgrade : upgrades){
+                if (generatorUpgrade.getUpgradeBuild() == null) continue;
+                allGenerated += generatorUpgrade.getUpgradeBuild().getGeneratedAmount();
+            }
+
+        return allGenerated;
     }
 
     @Override

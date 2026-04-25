@@ -3,7 +3,9 @@ package me.ehsanmna.skyGenerators.gui;
 import lombok.Getter;
 import lombok.Setter;
 import me.ehsanmna.skyGenerators.SkyGenerators;
+import me.ehsanmna.skyGenerators.models.upgrade.GeneratorUpgrade;
 import me.ehsanmna.skyGenerators.models.PlayerGenerator;
+import me.ehsanmna.skyGenerators.models.upgrade.GeneratorUpgradeBuild;
 import me.ehsanmna.skyGenerators.utils.InventoryUtils;
 import me.ehsanmna.skyGenerators.utils.TextUtils;
 import net.kyori.adventure.text.Component;
@@ -91,6 +93,9 @@ public class Menu implements Cloneable {
         if (generator == null) return item;
 
         ItemMeta meta = item.getItemMeta();
+
+        if (meta.getPersistentDataContainer().has(new NamespacedKey(SkyGenerators.getInstance(), "upgrade-slot"))) item = processUpgrade(item, generator);
+
         if (meta.hasLore()) {
             List<Component> processedLore = processLore(meta.lore(), generator);
             meta.lore(processedLore);
@@ -111,11 +116,20 @@ public class Menu implements Cloneable {
         return processedLore;
     }
 
+    private ItemStack processUpgrade(ItemStack item, PlayerGenerator generator){
+        ItemMeta meta = item.getItemMeta();
+        String action = meta.getPersistentDataContainer().get(new NamespacedKey(SkyGenerators.getInstance(), "upgrade-slot"), PersistentDataType.STRING);
+        int number = Integer.parseInt(action.split(":")[1]);
+        if (generator.getUpgrades().size() < number) return item;
+        GeneratorUpgrade generatorUpgrade = generator.getUpgrades().get(number - 1);
+        return generatorUpgrade.getAsItemStack();
+    }
+
     private String replacePlaceholders(String text, PlayerGenerator generator) {
         return text
-                .replace("%generated%", String.valueOf(generator.getGeneratedBlocks()))
+                .replace("%generated%", String.valueOf(generator.getAllGenerated()))
                 .replace("%cost%", formatCost(generator))
-                .replace("%storage%", String.valueOf(generator.getGenerator().getBaseGenerator().getSpace()));
+                .replace("%storage%", String.valueOf(generator.getSpace()));
     }
 
     private String formatCost(PlayerGenerator generator) {
@@ -163,11 +177,15 @@ public class Menu implements Cloneable {
 
     private void addGeneratedBlocks(Inventory gui, PlayerGenerator generator) {
         int generatedAmount = generator.getGeneratedBlocks();
-        if (generatedAmount == 0) return;
+        if (generator.getAllGenerated() == 0) return;
+
+        fillUpgradesItem(gui, generator);
 
         ItemStack blockItem = new ItemStack(generator.getGenerator().getBaseGenerator().getGeneratorMaterial());
         int emptySlots = InventoryUtils.getEmptySlotsCount(gui);
         int maxStackable = emptySlots * 64;
+
+        if (emptySlots == 0) return;
 
         if (generatedAmount <= maxStackable) {
             // Add all generated blocks
@@ -177,7 +195,29 @@ public class Menu implements Cloneable {
         } else {
             // Fill all empty slots
             while (InventoryUtils.hasEmptySlots(gui)) {
+                blockItem.setAmount(64);
                 gui.addItem(blockItem);
+            }
+        }
+    }
+
+    private void fillUpgradesItem(Inventory gui, PlayerGenerator generator) {
+        for (GeneratorUpgrade generatorUpgrade : generator.getUpgrades()){
+            if (generatorUpgrade.getUpgradeBuild() == GeneratorUpgradeBuild.STORAGE) continue;
+            int generated = generatorUpgrade.getUpgradeBuild().getGeneratedAmount();
+            int emptySlots = InventoryUtils.getEmptySlotsCount(gui);
+            int maxStackable = emptySlots * 64;
+            ItemStack blockItem = new ItemStack(generatorUpgrade.getUpgradeBuild().getOutputStack());
+
+            if (generated <= maxStackable) {
+                // Add all generated blocks
+                for (int i = 0; i < generated; i++) gui.addItem(blockItem);
+            } else {
+                // Fill all empty slots
+                while (InventoryUtils.hasEmptySlots(gui)) {
+                    blockItem.setAmount(64);
+                    gui.addItem(blockItem);
+                }
             }
         }
     }

@@ -62,7 +62,7 @@ public class PlayerGeneratorService {
         Use this function only for getting itemstack of generator!
      **/
     public PlayerGenerator convertPlayerGenerator(Player player, Generator generator){
-        PlayerGenerator playerGenerator = new PlayerGenerator();
+        PlayerGenerator playerGenerator = new PlayerGenerator(generator);
         playerGenerator.setGeneratedBlocks(0);
         playerGenerator.setPlayerName(player.getName());
         return playerGenerator;

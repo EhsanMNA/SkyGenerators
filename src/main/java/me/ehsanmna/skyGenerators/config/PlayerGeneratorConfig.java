@@ -2,6 +2,8 @@ package me.ehsanmna.skyGenerators.config;
 
 import me.ehsanmna.skyGenerators.SkyGenerators;
 import me.ehsanmna.skyGenerators.manager.PlayerGeneratorManager;
+import me.ehsanmna.skyGenerators.models.upgrade.BaseGeneratorUpgrade;
+import me.ehsanmna.skyGenerators.models.upgrade.GeneratorUpgrade;
 import me.ehsanmna.skyGenerators.models.PlayerGenerator;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -44,6 +46,7 @@ public class PlayerGeneratorConfig {
                 int generated = generatorSection.getInt("generated");
                 PlayerGenerator playerGenerator = new PlayerGenerator(plugin.getGeneratorManager().getGenerator(generatorId));
                 playerGenerator.setGeneratedBlocks(generated);
+                if (generatorSection.contains("upgrades")) loadUpgrades(generatorSection.getConfigurationSection("upgrades"), playerGenerator);
                 playerGenerator.initilize();
                 playerGeneratorManager.getService().addGenerator(playerName,playerGenerator);
             }
@@ -65,6 +68,15 @@ public class PlayerGeneratorConfig {
                 generatorSection.set(i+".playerGeneratorId", playerGenerator.getGeneratorId().toString());
                 generatorSection.set(i+".generatorId", playerGenerator.getGenerator().getId().toString());
                 generatorSection.set(i+".generated", playerGenerator.getGeneratedBlocks());
+
+                int n =0;
+                for (GeneratorUpgrade generatorUpgrade : playerGenerator.getUpgrades()){
+                    n++;
+                    ConfigurationSection upgradeSection = generatorSection.createSection("upgrades");
+                    upgradeSection.set(n+".id", generatorUpgrade.getBaseGeneratorUpgrade().getId());
+                    upgradeSection.set(n+".uuid", generatorUpgrade.getUuid());
+                }
+
             }
         }
 
@@ -79,5 +91,18 @@ public class PlayerGeneratorConfig {
         setup();
         save();
         load();
+    }
+
+    private void loadUpgrades(ConfigurationSection section, PlayerGenerator playerGenerator){
+        for (String i : section.getKeys(false)){
+            ConfigurationSection upgradeSection = section.getConfigurationSection(i);
+            String id = upgradeSection.getString("id", "none");
+            String uuid = upgradeSection.getString("uuid", UUID.randomUUID().toString());
+            BaseGeneratorUpgrade baseGeneratorUpgrade = plugin.getGeneratorUpgradeManager().getGeneratorUpgrade(id);
+            GeneratorUpgrade generatorUpgrade = new GeneratorUpgrade(baseGeneratorUpgrade, UUID.fromString(uuid));
+            generatorUpgrade.setActive(true);
+
+            playerGenerator.getUpgrades().add(generatorUpgrade);
+        }
     }
 }

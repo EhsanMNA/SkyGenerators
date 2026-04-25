@@ -6,8 +6,9 @@ GeneratorCompressorUpgrade:
   lore:
     - "<white> | <gray>Turns every stack of item into compressed form!"
   build:
+    type: COMPRESSOR
     input: 64
-    output: "SkyMaterial:compressed_%material%:1"
+    output: "SKYMATERIAL:compressed_%material%:1"
 
 GeneratorBlockUpgrade:
   name: "Block compressor Upgrade"
@@ -17,5 +18,19 @@ GeneratorBlockUpgrade:
   lore:
     - "<white> | <gray>Turns every stack of item into block form!"
   build:
-    input: 64
-    output: "Material:%material%_block:1"
+    type: BLOCKER
+    input: 9
+    output: "MATERIAL:%material%_block:1"
+
+GeneratorStorageUpgrade:
+  name: "Storage Upgrade"
+  displayname: "<yellow>Storage <white>Upgrade"
+  material: CHEST
+  glow: true
+  lore:
+    - "<white> | <gray>Adds 512 extra storage spaces!"
+  build:
+#    input: 64
+#    output: "Material:%material%_block:1"
+    type: STORAGE
+    space: 512

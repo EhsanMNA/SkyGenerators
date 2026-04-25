@@ -2,6 +2,8 @@ package me.ehsanmna.skyGenerators.commands;
 
 import me.ehsanmna.skyGenerators.SkyGenerators;
 import me.ehsanmna.skyGenerators.models.BaseGenerator;
+import me.ehsanmna.skyGenerators.models.upgrade.BaseGeneratorUpgrade;
+import me.ehsanmna.skyGenerators.models.upgrade.GeneratorUpgrade;
 import me.ehsanmna.skyGenerators.utils.InventoryUtils;
 import me.ehsanmna.skyGenerators.utils.MessageUtils;
 import me.ehsanmna.skyGenerators.utils.TextUtils;
@@ -43,6 +45,8 @@ public class SkyGeneratorCommand implements CommandExecutor {
 
                 if (length == 1){
                     sender.sendMessage(TextUtils.toComponent("<dark_red><bold>SkyGenerators <white>|"));
+                    for (BaseGeneratorUpgrade generatorUpgrade : skyGenerators.getGeneratorUpgradeManager().getService().getGeneratorUpgradeMap().values())
+                        sender.sendMessage(TextUtils.toComponent("<red> | <white>"+generatorUpgrade.getName()+"<gray> "+generatorUpgrade.getId()));
                     for (BaseGenerator generator : skyGenerators.getGeneratorManager().getService().getGenerators().values())
                         sender.sendMessage(TextUtils.toComponent("<white> | "+generator.getName()+"<gray> "+generator.getId()));
                 }else if (length == 2){
@@ -66,7 +70,7 @@ public class SkyGeneratorCommand implements CommandExecutor {
                 }
 
                 if (length <= 2){
-                    sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-give-usage", "<white>| /sg give <green><player> <yellow><generator>")));
+                    sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-give-usage", "<white>| /sg give <green><player> <yellow><generator, generator-upgrade>")));
                     return true;
                 }
 
@@ -81,19 +85,23 @@ public class SkyGeneratorCommand implements CommandExecutor {
 
                 Player targetPlayer = Bukkit.getPlayer(targetPlayerId);
 
-                if (!skyGenerators.getGeneratorManager().getService().getGenerators().containsKey(providedGeneratorId)){
+                if (!skyGenerators.getGeneratorManager().getService().getGenerators().containsKey(providedGeneratorId) &&
+                        skyGenerators.getGeneratorUpgradeManager().getService().getGeneratorUpgrade(providedGeneratorId) == null){
                     sender.sendMessage(TextUtils.toComponent(
                             MessageUtils.getMessage("command-generator-not-found","<dark_red>SkyGenerators <white>| <red>%generator_name% is not found!").replace("%generator_name%",providedGeneratorId)));
                     return true;
                 }
 
-                ItemStack item = skyGenerators.getGeneratorManager().getGenerator(providedGeneratorId).getAsItemStack();
+                ItemStack item = skyGenerators.getGeneratorManager().getService().getGenerators().containsKey(providedGeneratorId) ?
+                        skyGenerators.getGeneratorManager().getGenerator(providedGeneratorId).getAsItemStack() :
+                        skyGenerators.getGeneratorUpgradeManager().getService().getGeneratorUpgrade(providedGeneratorId).getAsGenerator().getAsItemStack();
                 if (InventoryUtils.hasEmptySlots(targetPlayer.getInventory())){
                     targetPlayer.getInventory().addItem(item);
                 }else targetPlayer.getWorld().dropItem(targetPlayer.getLocation(), item);
 
-                sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-give-success", "<white>| <green>Item has been successfully given!")));
-
+                sender.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("command-give-success",
+                        "<white>| <green>%item% has been successfully given to %player%!".replace("%item%", item.getItemMeta().getDisplayName())
+                                .replace("%player%", targetPlayerId))));
                 break;
 
             case "menu":
@@ -122,7 +130,7 @@ public class SkyGeneratorCommand implements CommandExecutor {
                         return true;
                     }
 
-                    skyGenerators.getGuiManager().openGeneratorMenuOfPlayer(Bukkit.getPlayer(targetPlayerIdMenu) ,player);
+                    skyGenerators.getGuiManager().openGeneratorMenuOfPlayer(player ,Bukkit.getPlayer(targetPlayerIdMenu));
                 }
 
                 break;
@@ -165,6 +173,9 @@ public class SkyGeneratorCommand implements CommandExecutor {
         Inventory gui = Bukkit.createInventory(null, 54, TextUtils.toComponent(MessageUtils.getMessage("gui-generator-list","         <dark_red>Generators list")));
         for (BaseGenerator generator : skyGenerators.getGeneratorManager().getService().getGenerators().values())
             gui.addItem(skyGenerators.getGeneratorManager().getGenerator(generator).getAsItemStack());
+
+        for (BaseGeneratorUpgrade baseGeneratorUpgrade : skyGenerators.getGeneratorUpgradeManager().getService().getGeneratorUpgradeMap().values())
+            gui.addItem(baseGeneratorUpgrade.getAsGenerator().getAsItemStack());
 
         player.openInventory(gui);
     }
