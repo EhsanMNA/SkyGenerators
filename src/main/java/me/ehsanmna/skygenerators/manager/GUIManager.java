@@ -25,14 +25,17 @@ public class GUIManager {
     }
 
     public void openGeneratorsMenu(Player player){
+        SkyGenerators.getInstance().getSoundManager().getSoundDetail("generator-gui-open").playSound(player);
         guiService.getMenu("generatorsMenuGui").clone().open(player);
     }
 
     public void openGeneratorManagerMenu(Player player, PlayerGenerator playerGenerator){
+        SkyGenerators.getInstance().getSoundManager().getSoundDetail("generator-menu-open").playSound(player);
         guiService.getMenu("generatorManagerMenuGui").clone().open(player, playerGenerator);
     }
 
     public void openGeneratorMenuOfPlayer(Player playerToOpen, Player targetPlayerGeneratorMenu){
+        SkyGenerators.getInstance().getSoundManager().getSoundDetail("generator-gui-open").playSound(playerToOpen);
         guiService.getMenu("generatorsMenuGui").clone().openToOther(targetPlayerGeneratorMenu, playerToOpen);
     }
 

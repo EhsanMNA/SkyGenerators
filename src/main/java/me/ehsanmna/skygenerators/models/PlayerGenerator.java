@@ -4,9 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import me.azerima.skymaterials.utils.CustomItemManager;
 import me.ehsanmna.skygenerators.SkyGenerators;
+import me.ehsanmna.skygenerators.events.SkyGeneratorCollectEvent;
+import me.ehsanmna.skygenerators.events.SkyGeneratorPickupEvent;
+import me.ehsanmna.skygenerators.events.SkyGeneratorUpgradeEvent;
 import me.ehsanmna.skygenerators.models.upgrade.GeneratorUpgrade;
 import me.ehsanmna.skygenerators.models.upgrade.GeneratorUpgradeBuild;
 import me.ehsanmna.skygenerators.tasks.GeneratorTask;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -53,6 +57,10 @@ public class PlayerGenerator {
     public void generate(){generate(1);}
 
     public void collect(Player player){
+        SkyGeneratorCollectEvent event = new SkyGeneratorCollectEvent(player,this);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return;
+
         if (!upgrades.isEmpty())
             for (GeneratorUpgrade generatorUpgrade : upgrades){
                 if (generatorUpgrade.getBaseGeneratorUpgrade().getUpgradeBuild() == null) continue;
@@ -81,6 +89,10 @@ public class PlayerGenerator {
     public void upgrade(Player player) {
         String nextGeneratorId = generator.getBaseGenerator().getNextGeneratorUpgradeId();
         if (nextGeneratorId.equals("MAX")) return;
+
+        SkyGeneratorUpgradeEvent event = new SkyGeneratorUpgradeEvent(player,this);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return;
 
         String materialName = generator.getBaseGenerator().getNextGeneratorRequirementMaterialName();
         int amount = generator.getBaseGenerator().getNextGeneratorRequirementAmount();
@@ -127,6 +139,10 @@ public class PlayerGenerator {
     }
 
     public void pickup(Player player) {
+        SkyGeneratorPickupEvent event = new SkyGeneratorPickupEvent(player,this);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return;
+
         player.getInventory().addItem(generator.getAsItemStack());
         collect(player);
         for (GeneratorUpgrade generatorUpgrade : upgrades) {

@@ -1,8 +1,7 @@
 package me.ehsanmna.skygenerators.listeners;
 
 import me.ehsanmna.skygenerators.SkyGenerators;
-import me.ehsanmna.skygenerators.events.SkyGeneratorPreInputEvent;
-import me.ehsanmna.skygenerators.events.SkyGeneratorUpgradePreInputEvent;
+import me.ehsanmna.skygenerators.events.*;
 import me.ehsanmna.skygenerators.models.upgrade.GeneratorUpgrade;
 import me.ehsanmna.skygenerators.models.PlayerGenerator;
 import me.ehsanmna.skygenerators.utils.MessageUtils;
@@ -32,7 +31,10 @@ public class GeneratorPutListener implements Listener {
             player.sendMessage(TextUtils.toComponent(MessageUtils.getMessage("generator-put-full",
                     "<dark_red>SkyGenerators <white>| <red>Sorry but your generators amount is reached! if you want to use more generator, " +
                             "purchase ranks from <yellow>/store<white>!")));
+            return;
         }
+
+        SkyGenerators.getInstance().getSoundManager().getSoundDetail("generator-put").playSound(player);
     }
 
     @EventHandler
@@ -47,6 +49,31 @@ public class GeneratorPutListener implements Listener {
                     "<dark_red>SkyGenerators <white>| <red>Sorry but your generator already have this upgrade!")));
             return;
         }
+
+        SkyGenerators.getInstance().getSoundManager().getSoundDetail("generator-upgrade-put").playSound(player);
     }
+
+
+
+    @EventHandler
+    public void onSkyGeneratorCollect(SkyGeneratorCollectEvent event) {
+        SkyGenerators.getInstance().getSoundManager().getSoundDetail("generator-collect").playSound(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onSkyGeneratorUpgrade(SkyGeneratorUpgradeEvent event) {
+        SkyGenerators.getInstance().getSoundManager().getSoundDetail("generator-upgrade").playSound(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onSkyGeneratorPickup(SkyGeneratorPickupEvent event) {
+        SkyGenerators.getInstance().getSoundManager().getSoundDetail("generator-pickup").playSound(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onSkyGeneratorUpgradePickup(SkyGeneratorUpgradePickupEvent event) {
+        SkyGenerators.getInstance().getSoundManager().getSoundDetail("generator-upgrade-pickup").playSound(event.getPlayer());
+    }
+
 
 }

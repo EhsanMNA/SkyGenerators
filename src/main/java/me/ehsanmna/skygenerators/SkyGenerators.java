@@ -17,6 +17,7 @@ public final class SkyGenerators extends JavaPlugin {
     @Getter
     private static SkyGenerators instance;
 
+    private SoundManager soundManager;
     private PlayerGeneratorManager playerGeneratorManager;
     private GeneratorManager generatorManager;
     private GUIManager guiManager;
@@ -33,6 +34,7 @@ public final class SkyGenerators extends JavaPlugin {
         saveDefaultConfig();
 
         getLogger().info("Loading managers and services!");
+        soundManager = new SoundManager();
         configManager = new ConfigManager();
         generatorManager = new GeneratorManager();
         generatorUpgradeManager = new GeneratorUpgradeManager();
@@ -57,6 +59,7 @@ public final class SkyGenerators extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        getSoundManager().getSoundsConfig().save();
         getGeneratorManager().getConfig().save();
         getPlayerGeneratorManager().getConfig().save();
         getGuiManager().getGuiConfig().save();
@@ -76,6 +79,7 @@ public final class SkyGenerators extends JavaPlugin {
 
     public void reloadConfiguration(){
         reloadConfig();
+        getSoundManager().getSoundsConfig().reloadConfig();
         getGeneratorManager().getConfig().reloadConfig();
         getPlayerGeneratorManager().getConfig().reloadConfig();
         getGuiManager().getGuiConfig().reload();

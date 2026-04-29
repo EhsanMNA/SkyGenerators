@@ -1,0 +1,35 @@
+generator-gui-open:
+  sound: "BLOCK_ENCHANTMENT_TABLE_USE"
+  power: 5
+  pitch: 1
+
+generator-menu-open:
+  sound: "BLOCK_RESPAWN_ANCHOR_CHARGE"
+  power: 5
+  pitch: 2
+
+generator-put:
+  sound: "BLOCK_PISTON_EXTEND"
+  power: 5
+  pitch: 1
+generator-pickup:
+  sound: "BLOCK_PISTON_CONTRACT"
+  power: 5
+  pitch: 0
+generator-collect:
+  sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+  power: 5
+  pitch: 2
+generator-upgrade:
+  sound: "ENTITY_PLAYER_LEVELUP"
+  power: 5
+  pitch: 1
+
+generator-upgrade-put:
+  sound: "BLOCK_HONEY_BLOCK_BREAK"
+  power: 5
+  pitch: 1
+generator-upgrade-pickup:
+  sound: "BLOCK_HONEY_BLOCK_PLACE"
+  power: 5
+  pitch: 0

@@ -5,10 +5,13 @@ import lombok.Setter;
 import me.azerima.skymaterials.utils.CustomItem;
 import me.azerima.skymaterials.utils.CustomItemManager;
 import me.ehsanmna.skygenerators.SkyGenerators;
+import me.ehsanmna.skygenerators.events.SkyGeneratorPickupEvent;
+import me.ehsanmna.skygenerators.events.SkyGeneratorUpgradePickupEvent;
 import me.ehsanmna.skygenerators.models.MaterialType;
 import me.ehsanmna.skygenerators.models.PlayerGenerator;
 import me.ehsanmna.skygenerators.utils.InventoryUtils;
 import me.ehsanmna.skygenerators.utils.TextUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -63,6 +66,10 @@ public class GeneratorUpgrade {
     }
 
     public void pickup(Player player){
+        SkyGeneratorUpgradePickupEvent event = new SkyGeneratorUpgradePickupEvent(player,getPlayerGenerator(), this);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return;
+
         player.getInventory().addItem(getAsItemStack());
         collect(player);
         setActive(false);
