@@ -376,3 +376,514 @@ IceGenerator5:
     material: ICE
     speed: 5
     space: 512
+SnowGenerator1:
+  name: "Snow Generator Lvl 1"
+  displayName: "<white>Snow<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SNOW_BLOCK
+  generator:
+    material: SNOW_BLOCK
+    speed: 1
+    space: 64
+    upgrade: SnowGenerator2
+    upgradeCost: SKYMATERIAL-compressed_snow-1
+SnowGenerator2:
+  name: "Snow Generator Lvl 2"
+  displayName: "<white>Snow<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SNOW_BLOCK
+  generator:
+    material: SNOW_BLOCK
+    speed: 2
+    space: 128
+    upgrade: SnowGenerator3
+    upgradeCost: SKYMATERIAL-compressed_snow-2
+SnowGenerator3:
+  name: "Snow Generator Lvl 3"
+  displayName: "<white>Snow<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SNOW_BLOCK
+  generator:
+    material: SNOW_BLOCK
+    speed: 3
+    space: 192
+    upgrade: SnowGenerator4
+    upgradeCost: SKYMATERIAL-compressed_snow-4
+SnowGenerator4:
+  name: "Snow Generator Lvl 4"
+  displayName: "<white>Snow<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SNOW_BLOCK
+  generator:
+    material: SNOW_BLOCK
+    speed: 4
+    space: 256
+    upgrade: SnowGenerator5
+    upgradeCost: SKYMATERIAL-compressed_snow-8
+SnowGenerator5:
+  name: "Snow Generator Lvl 5"
+  displayName: "<white>Snow<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SNOW_BLOCK
+  generator:
+    material: SNOW_BLOCK
+    speed: 5
+    space: 512
+
+SculkGenerator1:
+  name: "Sculk Generator Lvl 1"
+  displayName: "<dark_aqua>Sculk<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SCULK
+  generator:
+    material: SCULK
+    speed: 1
+    space: 64
+    upgrade: SculkGenerator2
+    upgradeCost: SKYMATERIAL-compressed_sculk-1
+SculkGenerator2:
+  name: "Sculk Generator Lvl 2"
+  displayName: "<dark_aqua>Sculk<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SCULK
+  generator:
+    material: SCULK
+    speed: 2
+    space: 128
+    upgrade: SculkGenerator3
+    upgradeCost: SKYMATERIAL-compressed_sculk-2
+SculkGenerator3:
+  name: "Sculk Generator Lvl 3"
+  displayName: "<dark_aqua>Sculk<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SCULK
+  generator:
+    material: SCULK
+    speed: 3
+    space: 192
+    upgrade: SculkGenerator4
+    upgradeCost: SKYMATERIAL-compressed_sculk-4
+SculkGenerator4:
+  name: "Sculk Generator Lvl 4"
+  displayName: "<dark_aqua>Sculk<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SCULK
+  generator:
+    material: SCULK
+    speed: 4
+    space: 256
+    upgrade: SculkGenerator5
+    upgradeCost: SKYMATERIAL-compressed_sculk-8
+SculkGenerator5:
+  name: "Sculk Generator Lvl 5"
+  displayName: "<dark_aqua>Sculk<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: SCULK
+  generator:
+    material: SCULK
+    speed: 5
+    space: 512
+
+QuartzGenerator1:
+  name: "Quartz Generator Lvl 1"
+  displayName: "<white>Quartz<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: QUARTZ_BLOCK
+  generator:
+    material: QUARTZ
+    speed: 1
+    space: 64
+    upgrade: QuartzGenerator2
+    upgradeCost: SKYMATERIAL-compressed_quartz-1
+QuartzGenerator2:
+  name: "Quartz Generator Lvl 2"
+  displayName: "<white>Quartz<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: QUARTZ_BLOCK
+  generator:
+    material: QUARTZ
+    speed: 2
+    space: 128
+    upgrade: QuartzGenerator3
+    upgradeCost: SKYMATERIAL-compressed_quartz-2
+QuartzGenerator3:
+  name: "Quartz Generator Lvl 3"
+  displayName: "<white>Quartz<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: QUARTZ_BLOCK
+  generator:
+    material: QUARTZ
+    speed: 3
+    space: 192
+    upgrade: QuartzGenerator4
+    upgradeCost: SKYMATERIAL-compressed_quartz-4
+QuartzGenerator4:
+  name: "Quartz Generator Lvl 4"
+  displayName: "<white>Quartz<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: QUARTZ_BLOCK
+  generator:
+    material: QUARTZ
+    speed: 4
+    space: 256
+    upgrade: QuartzGenerator5
+    upgradeCost: SKYMATERIAL-compressed_quartz-8
+QuartzGenerator5:
+  name: "Quartz Generator Lvl 5"
+  displayName: "<white>Quartz<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: QUARTZ_BLOCK
+  generator:
+    material: QUARTZ
+    speed: 5
+    space: 512
+
+LapisGenerator1:
+  name: "Lapis Generator Lvl 1"
+  displayName: "<blue>Lapis<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: LAPIS_BLOCK
+  generator:
+    material: LAPIS_LAZULI
+    speed: 1
+    space: 64
+    upgrade: LapisGenerator2
+    upgradeCost: SKYMATERIAL-compressed_lapis-1
+LapisGenerator2:
+  name: "Lapis Generator Lvl 2"
+  displayName: "<blue>Lapis<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: LAPIS_BLOCK
+  generator:
+    material: LAPIS_LAZULI
+    speed: 2
+    space: 128
+    upgrade: LapisGenerator3
+    upgradeCost: SKYMATERIAL-compressed_lapis-2
+LapisGenerator3:
+  name: "Lapis Generator Lvl 3"
+  displayName: "<blue>Lapis<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: LAPIS_BLOCK
+  generator:
+    material: LAPIS_LAZULI
+    speed: 3
+    space: 192
+    upgrade: LapisGenerator4
+    upgradeCost: SKYMATERIAL-compressed_lapis-4
+LapisGenerator4:
+  name: "Lapis Generator Lvl 4"
+  displayName: "<blue>Lapis<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: LAPIS_BLOCK
+  generator:
+    material: LAPIS_LAZULI
+    speed: 4
+    space: 256
+    upgrade: LapisGenerator5
+    upgradeCost: SKYMATERIAL-compressed_lapis-8
+LapisGenerator5:
+  name: "Lapis Generator Lvl 5"
+  displayName: "<blue>Lapis<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: LAPIS_BLOCK
+  generator:
+    material: LAPIS_LAZULI
+    speed: 5
+    space: 512
+
+RedstoneGenerator1:
+  name: "Redstone Generator Lvl 1"
+  displayName: "<red>Redstone<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: REDSTONE_BLOCK
+  generator:
+    material: REDSTONE
+    speed: 1
+    space: 64
+    upgrade: RedstoneGenerator2
+    upgradeCost: SKYMATERIAL-compressed_redstone-1
+RedstoneGenerator2:
+  name: "Redstone Generator Lvl 2"
+  displayName: "<red>Redstone<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: REDSTONE_BLOCK
+  generator:
+    material: REDSTONE
+    speed: 2
+    space: 128
+    upgrade: RedstoneGenerator3
+    upgradeCost: SKYMATERIAL-compressed_redstone-2
+RedstoneGenerator3:
+  name: "Redstone Generator Lvl 3"
+  displayName: "<red>Redstone<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: REDSTONE_BLOCK
+  generator:
+    material: REDSTONE
+    speed: 3
+    space: 192
+    upgrade: RedstoneGenerator4
+    upgradeCost: SKYMATERIAL-compressed_redstone-4
+RedstoneGenerator4:
+  name: "Redstone Generator Lvl 4"
+  displayName: "<red>Redstone<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: REDSTONE_BLOCK
+  generator:
+    material: REDSTONE
+    speed: 4
+    space: 256
+    upgrade: RedstoneGenerator5
+    upgradeCost: SKYMATERIAL-compressed_redstone-8
+RedstoneGenerator5:
+  name: "Redstone Generator Lvl 5"
+  displayName: "<red>Redstone<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: REDSTONE_BLOCK
+  generator:
+    material: REDSTONE
+    speed: 5
+    space: 512
+
+CopperGenerator1:
+  name: "Copper Generator Lvl 1"
+  displayName: "<gold>Copper<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COPPER_BLOCK
+  generator:
+    material: COPPER_INGOT
+    speed: 1
+    space: 64
+    upgrade: CopperGenerator2
+    upgradeCost: SKYMATERIAL-compressed_copper-1
+CopperGenerator2:
+  name: "Copper Generator Lvl 2"
+  displayName: "<gold>Copper<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COPPER_BLOCK
+  generator:
+    material: COPPER_INGOT
+    speed: 2
+    space: 128
+    upgrade: CopperGenerator3
+    upgradeCost: SKYMATERIAL-compressed_copper-2
+CopperGenerator3:
+  name: "Copper Generator Lvl 3"
+  displayName: "<gold>Copper<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COPPER_BLOCK
+  generator:
+    material: COPPER_INGOT
+    speed: 3
+    space: 192
+    upgrade: CopperGenerator4
+    upgradeCost: SKYMATERIAL-compressed_copper-4
+CopperGenerator4:
+  name: "Copper Generator Lvl 4"
+  displayName: "<gold>Copper<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COPPER_BLOCK
+  generator:
+    material: COPPER_INGOT
+    speed: 4
+    space: 256
+    upgrade: CopperGenerator5
+    upgradeCost: SKYMATERIAL-compressed_copper-8
+CopperGenerator5:
+  name: "Copper Generator Lvl 5"
+  displayName: "<gold>Copper<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: COPPER_BLOCK
+  generator:
+    material: COPPER_INGOT
+    speed: 5
+    space: 512
+
+BlackstoneGenerator1:
+  name: "Blackstone Generator Lvl 1"
+  displayName: "<dark_gray>Blackstone<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: BLACKSTONE
+  generator:
+    material: BLACKSTONE
+    speed: 1
+    space: 64
+    upgrade: BlackstoneGenerator2
+    upgradeCost: SKYMATERIAL-compressed_blackstone-1
+BlackstoneGenerator2:
+  name: "Blackstone Generator Lvl 2"
+  displayName: "<dark_gray>Blackstone<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: BLACKSTONE
+  generator:
+    material: BLACKSTONE
+    speed: 2
+    space: 128
+    upgrade: BlackstoneGenerator3
+    upgradeCost: SKYMATERIAL-compressed_blackstone-2
+BlackstoneGenerator3:
+  name: "Blackstone Generator Lvl 3"
+  displayName: "<dark_gray>Blackstone<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: BLACKSTONE
+  generator:
+    material: BLACKSTONE
+    speed: 3
+    space: 192
+    upgrade: BlackstoneGenerator4
+    upgradeCost: SKYMATERIAL-compressed_blackstone-4
+BlackstoneGenerator4:
+  name: "Blackstone Generator Lvl 4"
+  displayName: "<dark_gray>Blackstone<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: BLACKSTONE
+  generator:
+    material: BLACKSTONE
+    speed: 4
+    space: 256
+    upgrade: BlackstoneGenerator5
+    upgradeCost: SKYMATERIAL-compressed_blackstone-8
+BlackstoneGenerator5:
+  name: "Blackstone Generator Lvl 5"
+  displayName: "<dark_gray>Blackstone<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: BLACKSTONE
+  generator:
+    material: BLACKSTONE
+    speed: 5
+    space: 512
+
+NetheriteGenerator1:
+  name: "Netherite Generator Lvl 1"
+  displayName: "<dark_gray>Netherite<gold>I <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: NETHERITE_BLOCK
+  generator:
+    material: NETHERITE_INGOT
+    speed: 1
+    space: 64
+    upgrade: NetheriteGenerator2
+    upgradeCost: SKYMATERIAL-compressed_netherite-1
+NetheriteGenerator2:
+  name: "Netherite Generator Lvl 2"
+  displayName: "<dark_gray>Netherite<gold>II <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: NETHERITE_BLOCK
+  generator:
+    material: NETHERITE_INGOT
+    speed: 2
+    space: 128
+    upgrade: NetheriteGenerator3
+    upgradeCost: SKYMATERIAL-compressed_netherite-2
+NetheriteGenerator3:
+  name: "Netherite Generator Lvl 3"
+  displayName: "<dark_gray>Netherite<gold>III <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: NETHERITE_BLOCK
+  generator:
+    material: NETHERITE_INGOT
+    speed: 3
+    space: 192
+    upgrade: NetheriteGenerator4
+    upgradeCost: SKYMATERIAL-compressed_netherite-4
+NetheriteGenerator4:
+  name: "Netherite Generator Lvl 4"
+  displayName: "<dark_gray>Netherite<gold>IV <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: NETHERITE_BLOCK
+  generator:
+    material: NETHERITE_INGOT
+    speed: 4
+    space: 256
+    upgrade: NetheriteGenerator5
+    upgradeCost: SKYMATERIAL-compressed_netherite-8
+NetheriteGenerator5:
+  name: "Netherite Generator Lvl 5"
+  displayName: "<dark_gray>Netherite<gold>V <yellow>Generator"
+  lore:
+    - "<white>| <gray>Speed: <yellow>%speed% <gray>block/minute"
+    - "<white>| <gray>Space: <yellow>%space% <gray>blocks"
+  Material: NETHERITE_BLOCK
+  generator:
+    material: NETHERITE_INGOT
+    speed: 5
+    space: 512

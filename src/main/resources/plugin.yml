@@ -1,6 +1,6 @@
 name: SkyGenerators
 version: '${project.version}'
-main: me.ehsanmna.skyGenerators.SkyGenerators
+main: me.ehsanmna.skygenerators.SkyGenerators
 api-version: '1.17'
 prefix: SkyGenerator
 authors: [ EhsanMNA ]

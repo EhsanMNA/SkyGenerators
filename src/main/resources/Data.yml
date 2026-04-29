@@ -5,8 +5,9 @@
 #      id: "CobbleStoneGenerator5"
 #      generatorId: "00d9d79f-d1c0-3082-a19c-d84a30a16704"
 #      generated: 10
-#      lastTime: 909099090
+#      lastTime: 909099090 |DENIED|
 #      upgrades:
 #         1:
 #           id: upgrade id
 #           uuid: uuid
+#           generated: 1
