@@ -155,8 +155,11 @@ generatorManagerMenuGui:
       material: "GRAY_STAINED_GLASS_PANE"
       name: " "
     30:
-      material: "GRAY_STAINED_GLASS_PANE"
-      name: " "
+      material: "AMETHYST_SHARD"
+      name: "<pink>Feed Energy"
+      action: feed
+      lore:
+        - "<white> | <gray>Current Energy:<aqua> %energy%/%maximum_energy%"
     31:
       material: "BARRIER"
       name: "<red>Close Menu"

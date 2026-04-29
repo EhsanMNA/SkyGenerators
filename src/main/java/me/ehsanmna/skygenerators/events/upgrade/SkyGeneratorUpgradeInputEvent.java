@@ -1,4 +1,4 @@
-package me.ehsanmna.skygenerators.events;
+package me.ehsanmna.skygenerators.events.upgrade;
 
 
 import me.ehsanmna.skygenerators.models.upgrade.GeneratorUpgrade;

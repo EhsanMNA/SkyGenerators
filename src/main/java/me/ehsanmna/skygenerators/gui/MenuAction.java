@@ -7,7 +7,7 @@ import me.ehsanmna.skygenerators.models.PlayerGenerator;
 import org.bukkit.entity.Player;
 
 public enum MenuAction {
-    UPGRADE, COLLECT, MENU, CLOSE, CANCEL, PICKUP, UPGRADE_SLOT;
+    UPGRADE, COLLECT, MENU, CLOSE, CANCEL, PICKUP, UPGRADE_SLOT, FEED;
 
     @Getter
     @Setter
@@ -36,6 +36,9 @@ public enum MenuAction {
                 break;
             case PICKUP:
                 if (generator != null) generator.pickup(player);
+                break;
+            case FEED:
+                generator.feedEnergy(generator.getGenerator().getBaseGenerator().getMaximumEnergy());
                 break;
             case UPGRADE_SLOT:
                 // handle upgrade slot

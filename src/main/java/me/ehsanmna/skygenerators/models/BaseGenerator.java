@@ -15,17 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 public class BaseGenerator {
 
-    String id;
-    String name;
-    Component displayName;
-    List<Component> lore;
-    Material material;
-    String permission;
-    Material generatorMaterial;
-    double speed;
-    int space;
-    String nextGeneratorUpgradeId;
-    String upgradeRequirement;
+    private String id;
+    private String name;
+    private Component displayName;
+    private List<Component> lore;
+    private Material material;
+    private String permission;
+    private Material generatorMaterial;
+    private double speed;
+    private int space;
+    private int maximumEnergy;
+    private String nextGeneratorUpgradeId;
+    private String upgradeRequirement;
 
     public void setLore(List<String> rawLore){
         List<Component> newLore = new ArrayList<>();

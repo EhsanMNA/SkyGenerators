@@ -11,6 +11,7 @@ CobbleStoneGenerator1:
     space: 64 # blocks
     upgrade: CobbleStoneGenerator2
     upgradeCost: MATERIAL-COBBLESTONE-64 # MATERIAL or SKY MATERIAL - ID - amount
+    energy: 1000
 CobbleStoneGenerator2:
   name: "Cobblestone Generator Lvl 2"
   displayName: "<white>Cobblestone<gold>II <yellow>Generator"
@@ -24,6 +25,7 @@ CobbleStoneGenerator2:
     space: 100
     upgrade: CobbleStoneGenerator3
     upgradeCost: SKYMATERIAL-compressed_cobblestone-2
+    energy: 1000
 CobbleStoneGenerator3:
   name: "Cobblestone Generator Lvl 3"
   displayName: "<white>Cobblestone<gold>III <yellow>Generator"
@@ -37,6 +39,7 @@ CobbleStoneGenerator3:
     space: 200
     upgrade: CobbleStoneGenerator4
     upgradeCost: SKYMATERIAL-compressed_cobblestone-4
+    energy: 1000
 CobbleStoneGenerator4:
   name: "Cobblestone Generator Lvl 4"
   displayName: "<white>Cobblestone<gold>IV <yellow>Generator"
@@ -50,6 +53,7 @@ CobbleStoneGenerator4:
     space: 250
     upgrade: CobbleStoneGenerator5
     upgradeCost: SKYMATERIAL-compressed_cobblestone-8
+    energy: 1000
 CobbleStoneGenerator5:
   name: "Cobblestone Generator Lvl 5"
   displayName: "<white>Cobblestone<aqua>V <yellow>Generator"
@@ -61,6 +65,7 @@ CobbleStoneGenerator5:
     material: COBBLESTONE
     speed: 5
     space: 350
+    energy: 1000
 CoalGenerator1:
   name: "Coal Generator Lvl 1"
   displayName: "<gray>Coal<gold>I <yellow>Generator"
@@ -74,6 +79,7 @@ CoalGenerator1:
     space: 64
     upgrade: CoalGenerator2
     upgradeCost: SKYMATERIAL-compressed_coal-1
+    energy: 1000
 CoalGenerator2:
   name: "Coal Generator Lvl 2"
   displayName: "<gray>Coal<gold>II <yellow>Generator"
@@ -87,6 +93,7 @@ CoalGenerator2:
     space: 128
     upgrade: CoalGenerator3
     upgradeCost: SKYMATERIAL-compressed_coal-2
+    energy: 1000
 CoalGenerator3:
   name: "Coal Generator Lvl 3"
   displayName: "<gray>Coal<gold>III <yellow>Generator"
@@ -100,6 +107,7 @@ CoalGenerator3:
     space: 192
     upgrade: CoalGenerator4
     upgradeCost: SKYMATERIAL-compressed_coal-4
+    energy: 1000
 CoalGenerator4:
   name: "Coal Generator Lvl 4"
   displayName: "<gray>Coal<gold>IV <yellow>Generator"
@@ -113,6 +121,7 @@ CoalGenerator4:
     space: 256
     upgrade: CoalGenerator5
     upgradeCost: SKYMATERIAL-compressed_coal-8
+    energy: 1000
 CoalGenerator5:
   name: "Coal Generator Lvl 5"
   displayName: "<gray>Coal<gold>V <yellow>Generator"
@@ -124,6 +133,7 @@ CoalGenerator5:
     material: COAL
     speed: 5
     space: 512
+    energy: 1000
 IronGenerator1:
   name: "Iron Generator Lvl 1"
   displayName: "<white>Iron<gold>I <yellow>Generator"
@@ -137,6 +147,7 @@ IronGenerator1:
     space: 64
     upgrade: IronGenerator2
     upgradeCost: SKYMATERIAL-compressed_iron_ingot-1
+    energy: 1000
 IronGenerator2:
   name: "Iron Generator Lvl 2"
   displayName: "<white>Iron<gold>II <yellow>Generator"
@@ -150,6 +161,7 @@ IronGenerator2:
     space: 128
     upgrade: IronGenerator3
     upgradeCost: SKYMATERIAL-compressed_iron_ingot-2
+    energy: 1000
 IronGenerator3:
   name: "Iron Generator Lvl 3"
   displayName: "<white>Iron<gold>III <yellow>Generator"
@@ -163,6 +175,7 @@ IronGenerator3:
     space: 192
     upgrade: IronGenerator4
     upgradeCost: SKYMATERIAL-compressed_iron_ingot-4
+    energy: 1000
 IronGenerator4:
   name: "Iron Generator Lvl 4"
   displayName: "<white>Iron<gold>IV <yellow>Generator"
@@ -176,6 +189,7 @@ IronGenerator4:
     space: 256
     upgrade: IronGenerator5
     upgradeCost: SKYMATERIAL-compressed_iron_ingot-8
+    energy: 1000
 IronGenerator5:
   name: "Iron Generator Lvl 5"
   displayName: "<white>Iron<gold>V <yellow>Generator"
@@ -187,6 +201,7 @@ IronGenerator5:
     material: IRON_INGOT
     speed: 5
     space: 512
+    energy: 1000
 DiamondGenerator1:
   name: "Diamond Generator Lvl 1"
   displayName: "<aqua>Diamond<gold>I <yellow>Generator"
@@ -200,6 +215,7 @@ DiamondGenerator1:
     space: 64
     upgrade: DiamondGenerator2
     upgradeCost: SKYMATERIAL-compressed_diamond-1
+    energy: 1000
 DiamondGenerator2:
   name: "Diamond Generator Lvl 2"
   displayName: "<aqua>Diamond<gold>II <yellow>Generator"
@@ -213,6 +229,7 @@ DiamondGenerator2:
     space: 128
     upgrade: DiamondGenerator3
     upgradeCost: SKYMATERIAL-compressed_diamond-2
+    energy: 1000
 DiamondGenerator3:
   name: "Diamond Generator Lvl 3"
   displayName: "<aqua>Diamond<gold>III <yellow>Generator"
@@ -226,6 +243,7 @@ DiamondGenerator3:
     space: 192
     upgrade: DiamondGenerator4
     upgradeCost: SKYMATERIAL-compressed_diamond-4
+    energy: 1000
 DiamondGenerator4:
   name: "Diamond Generator Lvl 4"
   displayName: "<aqua>Diamond<gold>IV <yellow>Generator"
@@ -239,6 +257,7 @@ DiamondGenerator4:
     space: 256
     upgrade: DiamondGenerator5
     upgradeCost: SKYMATERIAL-compressed_diamond-8
+    energy: 1000
 DiamondGenerator5:
   name: "Diamond Generator Lvl 5"
   displayName: "<aqua>Diamond<gold>V <yellow>Generator"
@@ -250,6 +269,7 @@ DiamondGenerator5:
     material: DIAMOND
     speed: 5
     space: 512
+    energy: 1000
 EmeraldGenerator1:
   name: "Emerald Generator Lvl 1"
   displayName: "<green>Emerald<gold>I <yellow>Generator"
@@ -263,6 +283,7 @@ EmeraldGenerator1:
     space: 64
     upgrade: EmeraldGenerator2
     upgradeCost: SKYMATERIAL-compressed_emerald-1
+    energy: 1000
 EmeraldGenerator2:
   name: "Emerald Generator Lvl 2"
   displayName: "<green>Emerald<gold>II <yellow>Generator"
@@ -276,6 +297,7 @@ EmeraldGenerator2:
     space: 128
     upgrade: EmeraldGenerator3
     upgradeCost: SKYMATERIAL-compressed_emerald-2
+    energy: 1000
 EmeraldGenerator3:
   name: "Emerald Generator Lvl 3"
   displayName: "<green>Emerald<gold>III <yellow>Generator"
@@ -289,6 +311,7 @@ EmeraldGenerator3:
     space: 192
     upgrade: EmeraldGenerator4
     upgradeCost: SKYMATERIAL-compressed_emerald-4
+    energy: 1000
 EmeraldGenerator4:
   name: "Emerald Generator Lvl 4"
   displayName: "<green>Emerald<gold>IV <yellow>Generator"
@@ -302,6 +325,7 @@ EmeraldGenerator4:
     space: 256
     upgrade: EmeraldGenerator5
     upgradeCost: SKYMATERIAL-compressed_emerald-8
+    energy: 1000
 EmeraldGenerator5:
   name: "Emerald Generator Lvl 5"
   displayName: "<green>Emerald<gold>V <yellow>Generator"
@@ -313,6 +337,7 @@ EmeraldGenerator5:
     material: EMERALD
     speed: 5
     space: 512
+    energy: 1000
 IceGenerator1:
   name: "Ice Generator Lvl 1"
   displayName: "<aqua>Ice<gold>I <yellow>Generator"
@@ -326,6 +351,7 @@ IceGenerator1:
     space: 64
     upgrade: IceGenerator2
     upgradeCost: SKYMATERIAL-compressed_ice-1
+    energy: 1000
 IceGenerator2:
   name: "Ice Generator Lvl 2"
   displayName: "<aqua>Ice<gold>II <yellow>Generator"
@@ -339,6 +365,7 @@ IceGenerator2:
     space: 128
     upgrade: IceGenerator3
     upgradeCost: SKYMATERIAL-compressed_ice-2
+    energy: 1000
 IceGenerator3:
   name: "Ice Generator Lvl 3"
   displayName: "<aqua>Ice<gold>III <yellow>Generator"
@@ -352,6 +379,7 @@ IceGenerator3:
     space: 192
     upgrade: IceGenerator4
     upgradeCost: SKYMATERIAL-compressed_ice-4
+    energy: 1000
 IceGenerator4:
   name: "Ice Generator Lvl 4"
   displayName: "<aqua>Ice<gold>IV <yellow>Generator"
@@ -365,6 +393,7 @@ IceGenerator4:
     space: 256
     upgrade: IceGenerator5
     upgradeCost: SKYMATERIAL-compressed_ice-8
+    energy: 1000
 IceGenerator5:
   name: "Ice Generator Lvl 5"
   displayName: "<aqua>Ice<gold>V <yellow>Generator"
@@ -376,6 +405,7 @@ IceGenerator5:
     material: ICE
     speed: 5
     space: 512
+    energy: 1000
 SnowGenerator1:
   name: "Snow Generator Lvl 1"
   displayName: "<white>Snow<gold>I <yellow>Generator"
@@ -389,6 +419,7 @@ SnowGenerator1:
     space: 64
     upgrade: SnowGenerator2
     upgradeCost: SKYMATERIAL-compressed_snow-1
+    energy: 1000
 SnowGenerator2:
   name: "Snow Generator Lvl 2"
   displayName: "<white>Snow<gold>II <yellow>Generator"
@@ -402,6 +433,7 @@ SnowGenerator2:
     space: 128
     upgrade: SnowGenerator3
     upgradeCost: SKYMATERIAL-compressed_snow-2
+    energy: 1000
 SnowGenerator3:
   name: "Snow Generator Lvl 3"
   displayName: "<white>Snow<gold>III <yellow>Generator"
@@ -415,6 +447,7 @@ SnowGenerator3:
     space: 192
     upgrade: SnowGenerator4
     upgradeCost: SKYMATERIAL-compressed_snow-4
+    energy: 1000
 SnowGenerator4:
   name: "Snow Generator Lvl 4"
   displayName: "<white>Snow<gold>IV <yellow>Generator"
@@ -428,6 +461,7 @@ SnowGenerator4:
     space: 256
     upgrade: SnowGenerator5
     upgradeCost: SKYMATERIAL-compressed_snow-8
+    energy: 1000
 SnowGenerator5:
   name: "Snow Generator Lvl 5"
   displayName: "<white>Snow<gold>V <yellow>Generator"
@@ -439,7 +473,7 @@ SnowGenerator5:
     material: SNOW_BLOCK
     speed: 5
     space: 512
-
+    energy: 1000
 SculkGenerator1:
   name: "Sculk Generator Lvl 1"
   displayName: "<dark_aqua>Sculk<gold>I <yellow>Generator"
@@ -453,6 +487,7 @@ SculkGenerator1:
     space: 64
     upgrade: SculkGenerator2
     upgradeCost: SKYMATERIAL-compressed_sculk-1
+    energy: 1000
 SculkGenerator2:
   name: "Sculk Generator Lvl 2"
   displayName: "<dark_aqua>Sculk<gold>II <yellow>Generator"
@@ -466,6 +501,7 @@ SculkGenerator2:
     space: 128
     upgrade: SculkGenerator3
     upgradeCost: SKYMATERIAL-compressed_sculk-2
+    energy: 1000
 SculkGenerator3:
   name: "Sculk Generator Lvl 3"
   displayName: "<dark_aqua>Sculk<gold>III <yellow>Generator"
@@ -479,6 +515,7 @@ SculkGenerator3:
     space: 192
     upgrade: SculkGenerator4
     upgradeCost: SKYMATERIAL-compressed_sculk-4
+    energy: 1000
 SculkGenerator4:
   name: "Sculk Generator Lvl 4"
   displayName: "<dark_aqua>Sculk<gold>IV <yellow>Generator"
@@ -492,6 +529,7 @@ SculkGenerator4:
     space: 256
     upgrade: SculkGenerator5
     upgradeCost: SKYMATERIAL-compressed_sculk-8
+    energy: 1000
 SculkGenerator5:
   name: "Sculk Generator Lvl 5"
   displayName: "<dark_aqua>Sculk<gold>V <yellow>Generator"
@@ -503,7 +541,7 @@ SculkGenerator5:
     material: SCULK
     speed: 5
     space: 512
-
+    energy: 1000
 QuartzGenerator1:
   name: "Quartz Generator Lvl 1"
   displayName: "<white>Quartz<gold>I <yellow>Generator"
@@ -517,6 +555,7 @@ QuartzGenerator1:
     space: 64
     upgrade: QuartzGenerator2
     upgradeCost: SKYMATERIAL-compressed_quartz-1
+    energy: 1000
 QuartzGenerator2:
   name: "Quartz Generator Lvl 2"
   displayName: "<white>Quartz<gold>II <yellow>Generator"
@@ -530,6 +569,7 @@ QuartzGenerator2:
     space: 128
     upgrade: QuartzGenerator3
     upgradeCost: SKYMATERIAL-compressed_quartz-2
+    energy: 1000
 QuartzGenerator3:
   name: "Quartz Generator Lvl 3"
   displayName: "<white>Quartz<gold>III <yellow>Generator"
@@ -543,6 +583,7 @@ QuartzGenerator3:
     space: 192
     upgrade: QuartzGenerator4
     upgradeCost: SKYMATERIAL-compressed_quartz-4
+    energy: 1000
 QuartzGenerator4:
   name: "Quartz Generator Lvl 4"
   displayName: "<white>Quartz<gold>IV <yellow>Generator"
@@ -556,6 +597,7 @@ QuartzGenerator4:
     space: 256
     upgrade: QuartzGenerator5
     upgradeCost: SKYMATERIAL-compressed_quartz-8
+    energy: 1000
 QuartzGenerator5:
   name: "Quartz Generator Lvl 5"
   displayName: "<white>Quartz<gold>V <yellow>Generator"
@@ -567,7 +609,7 @@ QuartzGenerator5:
     material: QUARTZ
     speed: 5
     space: 512
-
+    energy: 1000
 LapisGenerator1:
   name: "Lapis Generator Lvl 1"
   displayName: "<blue>Lapis<gold>I <yellow>Generator"
@@ -581,6 +623,7 @@ LapisGenerator1:
     space: 64
     upgrade: LapisGenerator2
     upgradeCost: SKYMATERIAL-compressed_lapis-1
+    energy: 1000
 LapisGenerator2:
   name: "Lapis Generator Lvl 2"
   displayName: "<blue>Lapis<gold>II <yellow>Generator"
@@ -594,6 +637,7 @@ LapisGenerator2:
     space: 128
     upgrade: LapisGenerator3
     upgradeCost: SKYMATERIAL-compressed_lapis-2
+    energy: 1000
 LapisGenerator3:
   name: "Lapis Generator Lvl 3"
   displayName: "<blue>Lapis<gold>III <yellow>Generator"
@@ -607,6 +651,7 @@ LapisGenerator3:
     space: 192
     upgrade: LapisGenerator4
     upgradeCost: SKYMATERIAL-compressed_lapis-4
+    energy: 1000
 LapisGenerator4:
   name: "Lapis Generator Lvl 4"
   displayName: "<blue>Lapis<gold>IV <yellow>Generator"
@@ -620,6 +665,7 @@ LapisGenerator4:
     space: 256
     upgrade: LapisGenerator5
     upgradeCost: SKYMATERIAL-compressed_lapis-8
+    energy: 1000
 LapisGenerator5:
   name: "Lapis Generator Lvl 5"
   displayName: "<blue>Lapis<gold>V <yellow>Generator"
@@ -631,7 +677,7 @@ LapisGenerator5:
     material: LAPIS_LAZULI
     speed: 5
     space: 512
-
+    energy: 1000
 RedstoneGenerator1:
   name: "Redstone Generator Lvl 1"
   displayName: "<red>Redstone<gold>I <yellow>Generator"
@@ -645,6 +691,7 @@ RedstoneGenerator1:
     space: 64
     upgrade: RedstoneGenerator2
     upgradeCost: SKYMATERIAL-compressed_redstone-1
+    energy: 1000
 RedstoneGenerator2:
   name: "Redstone Generator Lvl 2"
   displayName: "<red>Redstone<gold>II <yellow>Generator"
@@ -658,6 +705,7 @@ RedstoneGenerator2:
     space: 128
     upgrade: RedstoneGenerator3
     upgradeCost: SKYMATERIAL-compressed_redstone-2
+    energy: 1000
 RedstoneGenerator3:
   name: "Redstone Generator Lvl 3"
   displayName: "<red>Redstone<gold>III <yellow>Generator"
@@ -671,6 +719,7 @@ RedstoneGenerator3:
     space: 192
     upgrade: RedstoneGenerator4
     upgradeCost: SKYMATERIAL-compressed_redstone-4
+    energy: 1000
 RedstoneGenerator4:
   name: "Redstone Generator Lvl 4"
   displayName: "<red>Redstone<gold>IV <yellow>Generator"
@@ -684,6 +733,7 @@ RedstoneGenerator4:
     space: 256
     upgrade: RedstoneGenerator5
     upgradeCost: SKYMATERIAL-compressed_redstone-8
+    energy: 1000
 RedstoneGenerator5:
   name: "Redstone Generator Lvl 5"
   displayName: "<red>Redstone<gold>V <yellow>Generator"
@@ -695,7 +745,7 @@ RedstoneGenerator5:
     material: REDSTONE
     speed: 5
     space: 512
-
+    energy: 1000
 CopperGenerator1:
   name: "Copper Generator Lvl 1"
   displayName: "<gold>Copper<gold>I <yellow>Generator"
@@ -709,6 +759,7 @@ CopperGenerator1:
     space: 64
     upgrade: CopperGenerator2
     upgradeCost: SKYMATERIAL-compressed_copper-1
+    energy: 1000
 CopperGenerator2:
   name: "Copper Generator Lvl 2"
   displayName: "<gold>Copper<gold>II <yellow>Generator"
@@ -722,6 +773,7 @@ CopperGenerator2:
     space: 128
     upgrade: CopperGenerator3
     upgradeCost: SKYMATERIAL-compressed_copper-2
+    energy: 1000
 CopperGenerator3:
   name: "Copper Generator Lvl 3"
   displayName: "<gold>Copper<gold>III <yellow>Generator"
@@ -735,6 +787,7 @@ CopperGenerator3:
     space: 192
     upgrade: CopperGenerator4
     upgradeCost: SKYMATERIAL-compressed_copper-4
+    energy: 1000
 CopperGenerator4:
   name: "Copper Generator Lvl 4"
   displayName: "<gold>Copper<gold>IV <yellow>Generator"
@@ -748,6 +801,7 @@ CopperGenerator4:
     space: 256
     upgrade: CopperGenerator5
     upgradeCost: SKYMATERIAL-compressed_copper-8
+    energy: 1000
 CopperGenerator5:
   name: "Copper Generator Lvl 5"
   displayName: "<gold>Copper<gold>V <yellow>Generator"
@@ -759,7 +813,7 @@ CopperGenerator5:
     material: COPPER_INGOT
     speed: 5
     space: 512
-
+    energy: 1000
 BlackstoneGenerator1:
   name: "Blackstone Generator Lvl 1"
   displayName: "<dark_gray>Blackstone<gold>I <yellow>Generator"
@@ -773,6 +827,7 @@ BlackstoneGenerator1:
     space: 64
     upgrade: BlackstoneGenerator2
     upgradeCost: SKYMATERIAL-compressed_blackstone-1
+    energy: 1000
 BlackstoneGenerator2:
   name: "Blackstone Generator Lvl 2"
   displayName: "<dark_gray>Blackstone<gold>II <yellow>Generator"
@@ -786,6 +841,7 @@ BlackstoneGenerator2:
     space: 128
     upgrade: BlackstoneGenerator3
     upgradeCost: SKYMATERIAL-compressed_blackstone-2
+    energy: 1000
 BlackstoneGenerator3:
   name: "Blackstone Generator Lvl 3"
   displayName: "<dark_gray>Blackstone<gold>III <yellow>Generator"
@@ -799,6 +855,7 @@ BlackstoneGenerator3:
     space: 192
     upgrade: BlackstoneGenerator4
     upgradeCost: SKYMATERIAL-compressed_blackstone-4
+    energy: 1000
 BlackstoneGenerator4:
   name: "Blackstone Generator Lvl 4"
   displayName: "<dark_gray>Blackstone<gold>IV <yellow>Generator"
@@ -812,6 +869,7 @@ BlackstoneGenerator4:
     space: 256
     upgrade: BlackstoneGenerator5
     upgradeCost: SKYMATERIAL-compressed_blackstone-8
+    energy: 1000
 BlackstoneGenerator5:
   name: "Blackstone Generator Lvl 5"
   displayName: "<dark_gray>Blackstone<gold>V <yellow>Generator"
@@ -823,7 +881,7 @@ BlackstoneGenerator5:
     material: BLACKSTONE
     speed: 5
     space: 512
-
+    energy: 1000
 NetheriteGenerator1:
   name: "Netherite Generator Lvl 1"
   displayName: "<dark_gray>Netherite<gold>I <yellow>Generator"
@@ -837,6 +895,7 @@ NetheriteGenerator1:
     space: 64
     upgrade: NetheriteGenerator2
     upgradeCost: SKYMATERIAL-compressed_netherite-1
+    energy: 1000
 NetheriteGenerator2:
   name: "Netherite Generator Lvl 2"
   displayName: "<dark_gray>Netherite<gold>II <yellow>Generator"
@@ -850,6 +909,7 @@ NetheriteGenerator2:
     space: 128
     upgrade: NetheriteGenerator3
     upgradeCost: SKYMATERIAL-compressed_netherite-2
+    energy: 1000
 NetheriteGenerator3:
   name: "Netherite Generator Lvl 3"
   displayName: "<dark_gray>Netherite<gold>III <yellow>Generator"
@@ -863,6 +923,7 @@ NetheriteGenerator3:
     space: 192
     upgrade: NetheriteGenerator4
     upgradeCost: SKYMATERIAL-compressed_netherite-4
+    energy: 1000
 NetheriteGenerator4:
   name: "Netherite Generator Lvl 4"
   displayName: "<dark_gray>Netherite<gold>IV <yellow>Generator"
@@ -876,6 +937,7 @@ NetheriteGenerator4:
     space: 256
     upgrade: NetheriteGenerator5
     upgradeCost: SKYMATERIAL-compressed_netherite-8
+    energy: 1000
 NetheriteGenerator5:
   name: "Netherite Generator Lvl 5"
   displayName: "<dark_gray>Netherite<gold>V <yellow>Generator"
@@ -887,3 +949,4 @@ NetheriteGenerator5:
     material: NETHERITE_INGOT
     speed: 5
     space: 512
+    energy: 1000

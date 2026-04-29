@@ -13,10 +13,11 @@ public class ConfigManager {
     @Getter
     private Map<String, Integer> generatorMapSize = new HashMap<>();
 
-    @Getter
-    private boolean autoSave = true;
-    @Getter
-    private int autoSavePeriod = 1800; //seconds
+    @Getter private boolean autoSave = true;
+    @Getter private int autoSavePeriod = 1800; //seconds
+
+    @Getter private boolean energySystemEnabled = true;
+
 
     public ConfigManager() {
         load();
@@ -29,5 +30,6 @@ public class ConfigManager {
         autoSave = skyGenerators.getConfig().getBoolean("autoSave",true);
         autoSavePeriod = skyGenerators.getConfig().getInt("autoSave-Period",1800);
 
+        energySystemEnabled = skyGenerators.getConfig().getBoolean("feedEnergySystem.enable", true);
     }
 }

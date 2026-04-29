@@ -8,6 +8,9 @@ offlineGenerator: true
 autoSave: true
 autoSave-Period: 1800 # seconds
 
+feedEnergySystem:
+  enable: true
+
 # ranks - permission based
 generatorAmount:
   default: 5

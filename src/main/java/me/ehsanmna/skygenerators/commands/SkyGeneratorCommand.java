@@ -94,6 +94,7 @@ public class SkyGeneratorCommand implements CommandExecutor {
                 ItemStack item = skyGenerators.getGeneratorManager().getService().getGenerators().containsKey(providedGeneratorId) ?
                         skyGenerators.getGeneratorManager().getGenerator(providedGeneratorId).getAsItemStack() :
                         skyGenerators.getGeneratorUpgradeManager().getService().getGeneratorUpgrade(providedGeneratorId).getAsGenerator().getAsItemStack();
+                assert targetPlayer != null;
                 if (InventoryUtils.hasEmptySlots(targetPlayer.getInventory())){
                     targetPlayer.getInventory().addItem(item);
                 }else targetPlayer.getWorld().dropItem(targetPlayer.getLocation(), item);

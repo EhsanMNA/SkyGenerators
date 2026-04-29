@@ -2,6 +2,9 @@ package me.ehsanmna.skygenerators.listeners;
 
 import me.ehsanmna.skygenerators.SkyGenerators;
 import me.ehsanmna.skygenerators.events.*;
+import me.ehsanmna.skygenerators.events.upgrade.SkyGeneratorUpgradeEvent;
+import me.ehsanmna.skygenerators.events.upgrade.SkyGeneratorUpgradePickupEvent;
+import me.ehsanmna.skygenerators.events.upgrade.SkyGeneratorUpgradePreInputEvent;
 import me.ehsanmna.skygenerators.models.upgrade.GeneratorUpgrade;
 import me.ehsanmna.skygenerators.models.PlayerGenerator;
 import me.ehsanmna.skygenerators.utils.MessageUtils;

@@ -6,7 +6,7 @@ import me.azerima.skymaterials.utils.CustomItemManager;
 import me.ehsanmna.skygenerators.SkyGenerators;
 import me.ehsanmna.skygenerators.events.SkyGeneratorCollectEvent;
 import me.ehsanmna.skygenerators.events.SkyGeneratorPickupEvent;
-import me.ehsanmna.skygenerators.events.SkyGeneratorUpgradeEvent;
+import me.ehsanmna.skygenerators.events.upgrade.SkyGeneratorUpgradeEvent;
 import me.ehsanmna.skygenerators.models.upgrade.GeneratorUpgrade;
 import me.ehsanmna.skygenerators.models.upgrade.GeneratorUpgradeBuild;
 import me.ehsanmna.skygenerators.tasks.GeneratorTask;
@@ -43,6 +43,8 @@ public class PlayerGenerator {
         // check for empty space
         if (getAllGenerated() + (generator.getBaseGenerator().getSpeed() * minutes) > getSpace()) return;
 
+        if (getGenerator().getEnergy() == 0) return;
+
         generatedBlocks = (int) (generatedBlocks + (generator.getBaseGenerator().getSpeed() * minutes));
 
         // also call generate functions for upgrades
@@ -52,6 +54,8 @@ public class PlayerGenerator {
                 generatorUpgrade.generate();
             }
         }
+
+        getGenerator().setEnergy(getGenerator().getEnergy() -1);
     }
 
     public void generate(){generate(1);}
@@ -82,6 +86,8 @@ public class PlayerGenerator {
                 }
             }
         }
+        if (generatorTask.isCancelled()) generatorTask.runTaskTimer(SkyGenerators.getInstance(), 1200, 20L * 60);
+
         player.closeInventory();
         SkyGenerators.getInstance().getGuiManager().openGeneratorManagerMenu(player,this);
     }
@@ -174,6 +180,18 @@ public class PlayerGenerator {
             }
 
         return allGenerated;
+    }
+
+    public boolean isStorageFull(){
+        return getAllGenerated() > getSpace();
+    }
+
+    public void feedEnergy(int amount){
+        if (amount == 0) return;
+        int generatorEnergyAmount = getGenerator().getEnergy();
+        if (generatorEnergyAmount + amount > getGenerator().getBaseGenerator().getMaximumEnergy()) return;
+        getGenerator().setEnergy(generatorEnergyAmount + amount);
+        if (generatorTask.isCancelled()) generatorTask.runTaskTimer(SkyGenerators.getInstance(), 1200, 20L * 60);
     }
 
     public void setActive(boolean active) {

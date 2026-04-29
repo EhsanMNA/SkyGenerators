@@ -44,8 +44,10 @@ public class PlayerGeneratorConfig {
                 UUID id = UUID.fromString(generatorSection.getString("playerGeneratorId", UUID.randomUUID().toString()));
                 String generatorId = generatorSection.getString("id", "CobbleStoneGenerator1");
                 int generated = generatorSection.getInt("generated");
+                int energy = generatorSection.getInt("energy");
                 PlayerGenerator playerGenerator = new PlayerGenerator(plugin.getGeneratorManager().getGenerator(generatorId));
                 playerGenerator.setGeneratedBlocks(generated);
+                playerGenerator.getGenerator().setEnergy(energy);
                 if (generatorSection.contains("upgrades")) loadUpgrades(generatorSection.getConfigurationSection("upgrades"), playerGenerator);
                 playerGenerator.initilize();
                 playerGeneratorManager.getService().addGenerator(playerName,playerGenerator);
@@ -68,6 +70,7 @@ public class PlayerGeneratorConfig {
                 generatorSection.set(i+".playerGeneratorId", playerGenerator.getGeneratorId().toString());
                 generatorSection.set(i+".generatorId", playerGenerator.getGenerator().getId().toString());
                 generatorSection.set(i+".generated", playerGenerator.getGeneratedBlocks());
+                generatorSection.set(i+".energy", playerGenerator.getGenerator().getEnergy());
 
                 int n =0;
                 ConfigurationSection upgradeSection = generatorSection.createSection(i+".upgrades");
