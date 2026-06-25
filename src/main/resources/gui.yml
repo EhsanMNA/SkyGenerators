@@ -105,8 +105,13 @@ generatorManagerMenuGui:
         - "<white> | <gray>Yes it does! but always make sure that the storage"
         - "<white> | <gray>is empty! So generator can generate items for you!"
     5:
-      material: "GRAY_STAINED_GLASS_PANE"
-      name: " "
+      material: "BLACK_STAINED_GLASS_PANE"
+      name: "<gold>Generator Journal"
+      lore:
+        - "<white> | <gray>Created: <white>%journal_create%"
+        - "<white> | <gray>Lifetime Blocks Generated: <white>%journal_lifetimeBlocksGenerated%"
+        - "<white> | <gray>Lifetime Collections: <white>%journal_lifetimeCollections%"
+        - "<white> | <gray>Last CollectedAt: <white>%journal_lastCollectedAt%"
     6:
       material: "GRAY_STAINED_GLASS_PANE"
       name: " "

@@ -23,6 +23,7 @@ public final class SkyGenerators extends JavaPlugin {
     private GUIManager guiManager;
     private ConfigManager configManager;
     private GeneratorUpgradeManager generatorUpgradeManager;
+    private JournalManager journalManager;
 
     @Getter
     @Setter
@@ -34,6 +35,7 @@ public final class SkyGenerators extends JavaPlugin {
         saveDefaultConfig();
 
         getLogger().info("Loading managers and services!");
+        journalManager = new JournalManager();
         soundManager = new SoundManager();
         configManager = new ConfigManager();
         generatorManager = new GeneratorManager();
@@ -84,6 +86,7 @@ public final class SkyGenerators extends JavaPlugin {
         getPlayerGeneratorManager().getConfig().reloadConfig();
         getGuiManager().getGuiConfig().reload();
         getGeneratorUpgradeManager().getConfig().reloadConfig();
+        getJournalManager().getConfig().reloadConfig();
         MessageUtils.getMessageConfig().reload();
     }
 

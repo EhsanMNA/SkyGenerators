@@ -126,10 +126,13 @@ public class Menu implements Cloneable {
     }
 
     private String replacePlaceholders(String text, PlayerGenerator generator) {
-        return text
+        return generator.getJournal().replacePlaceholders(
+                text
                 .replace("%generated%", String.valueOf(generator.getAllGenerated()))
                 .replace("%cost%", formatCost(generator))
-                .replace("%storage%", String.valueOf(generator.getSpace()));
+                .replace("%energy%", generator.getGenerator().getEnergy()+"")
+                .replace("%maximum_energy%", generator.getGenerator().getBaseGenerator().getMaximumEnergy()+"")
+                .replace("%storage%", String.valueOf(generator.getSpace())));
     }
 
     private String formatCost(PlayerGenerator generator) {

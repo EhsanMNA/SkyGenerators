@@ -38,7 +38,8 @@ public enum MenuAction {
                 if (generator != null) generator.pickup(player);
                 break;
             case FEED:
-                generator.feedEnergy(generator.getGenerator().getBaseGenerator().getMaximumEnergy());
+                if (generator != null) generator.feedEnergy(generator.getGenerator().getBaseGenerator().getMaximumEnergy());
+                SkyGenerators.getInstance().getGuiManager().openGeneratorManagerMenu(player,generator);
                 break;
             case UPGRADE_SLOT:
                 // handle upgrade slot

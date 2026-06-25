@@ -303,7 +303,7 @@ public class GUIListener implements Listener {
             return;
         }
 
-        System.out.println("Handling resource collection!");
+        if (SkyGenerators.isDebugMode()) SkyGenerators.getInstance().getLogger().info("Handling resource collection!");
         // Handle resource collection
         handleResourceCollection(event, playerGenerator, clickedItem);
     }
@@ -355,6 +355,7 @@ public class GUIListener implements Listener {
                 }
             }
         }
+        generator.getJournal().recordCollection();
     }
 
     private boolean isUpgraderItem(ItemStack itemStack){

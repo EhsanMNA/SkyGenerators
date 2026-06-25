@@ -32,30 +32,40 @@ public class PlayerGenerator {
     private GeneratorTask generatorTask;
     private List<GeneratorUpgrade> upgrades = new ArrayList<>();
     private boolean active = true;
+    private GeneratorJournal journal;
 
 
     public PlayerGenerator(Generator generator) {
         this.generatorId = generator.getId();
         this.generator = generator;
+        this.journal = new GeneratorJournal(generator.getBaseGenerator());
     }
 
     public void generate(int minutes){
         // check for empty space
         if (getAllGenerated() + (generator.getBaseGenerator().getSpeed() * minutes) > getSpace()) return;
 
-        if (getGenerator().getEnergy() == 0) return;
+        if (getGenerator().getEnergy() == 0 && SkyGenerators.getInstance().getConfigManager().isEnergySystemEnabled()) return;
 
-        generatedBlocks = (int) (generatedBlocks + (generator.getBaseGenerator().getSpeed() * minutes));
+        int blocksThisTick = (int) (generator.getBaseGenerator().getSpeed() * minutes);
+        generatedBlocks = generatedBlocks + blocksThisTick;
+        journal.recordBlocksGenerated(blocksThisTick);
 
         // also call generate functions for upgrades
         if (!upgrades.isEmpty()){
             for (GeneratorUpgrade generatorUpgrade : upgrades) {
                 if (generatorUpgrade.getBaseGeneratorUpgrade().getUpgradeBuild() == null) continue;
+                int beforeAmount = generatorUpgrade.getGeneratedAmount();
                 generatorUpgrade.generate();
+                journal.recordUpgradeItemsGenerated(generatorUpgrade.getGeneratedAmount() - beforeAmount);
             }
         }
 
-        getGenerator().setEnergy(getGenerator().getEnergy() -1);
+        if (SkyGenerators.getInstance().getConfigManager().isEnergySystemEnabled()) {
+            journal.recordEnergyConsumed(1);
+            getGenerator().setEnergy(getGenerator().getEnergy() -1);
+        }
+
     }
 
     public void generate(){generate(1);}
@@ -86,9 +96,10 @@ public class PlayerGenerator {
                 }
             }
         }
-        if (generatorTask.isCancelled()) generatorTask.runTaskTimer(SkyGenerators.getInstance(), 1200, 20L * 60);
+        if (!generatorTask.isGenerating()) generatorTask.runTaskTimer(SkyGenerators.getInstance(), 1200, 20L * 60);
 
-        player.closeInventory();
+        journal.recordCollection();
+
         SkyGenerators.getInstance().getGuiManager().openGeneratorManagerMenu(player,this);
     }
 
@@ -134,6 +145,7 @@ public class PlayerGenerator {
 
         Generator newGenerator = SkyGenerators.getInstance().getGeneratorManager().getGenerator(nextGeneratorId, generatorId);
         setGenerator(newGenerator);
+        journal.recordGeneratorUpgrade(newGenerator.getBaseGenerator());
         SkyGenerators.getInstance().getGuiManager().openGeneratorsMenu(player);
         SkyGenerators.getInstance().getLogger().info(playerName+" generator has been upgraded into "+generator.getBaseGenerator().getName()+"!");
     }
@@ -155,10 +167,23 @@ public class PlayerGenerator {
             generatorUpgrade.pickup(player);
         }
         upgrades.clear();
+        journal.syncActiveUpgrades(upgrades);
+        journal.recordPickup();
         setActive(false);
         generatorTask.cancel();
+        SkyGenerators.getInstance().getJournalManager().removeJournal(generatorId);
         SkyGenerators.getInstance().getPlayerGeneratorManager().removeGenerator(player, generatorId);
         SkyGenerators.getInstance().getGuiManager().openGeneratorsMenu(player);
+    }
+
+    public void addUpgrade(GeneratorUpgrade generatorUpgrade) {
+        upgrades.add(generatorUpgrade);
+        journal.syncActiveUpgrades(upgrades);
+    }
+
+    public void removeUpgrade(GeneratorUpgrade generatorUpgrade) {
+        upgrades.remove(generatorUpgrade);
+        journal.syncActiveUpgrades(upgrades);
     }
 
     public int getSpace(){
@@ -191,7 +216,7 @@ public class PlayerGenerator {
         int generatorEnergyAmount = getGenerator().getEnergy();
         if (generatorEnergyAmount + amount > getGenerator().getBaseGenerator().getMaximumEnergy()) return;
         getGenerator().setEnergy(generatorEnergyAmount + amount);
-        if (generatorTask.isCancelled()) generatorTask.runTaskTimer(SkyGenerators.getInstance(), 1200, 20L * 60);
+        if (!generatorTask.isGenerating()) generatorTask.runTaskTimer(SkyGenerators.getInstance(), 1200, 20L * 60);
     }
 
     public void setActive(boolean active) {

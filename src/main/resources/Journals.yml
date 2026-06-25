@@ -1,0 +1,7 @@
+# Journals.yml
+#
+# Stores lifetime "mileage" history for each PlayerGenerator instance.
+# Keyed by playerGeneratorId (the same UUID as Generator#id / PlayerGenerator#generatorId).
+#
+# This file is managed automatically - entries are written by JournalConfig#save()
+# and should not normally need manual editing.

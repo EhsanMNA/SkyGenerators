@@ -47,6 +47,7 @@ public class GeneratorConfig {
             Material generatorMaterial = Material.valueOf(generatorSection.getString("material","STONE"));
             int speed = generatorSection.getInt("speed",1);
             int space = generatorSection.getInt("space",100);
+            int energy = generatorSection.getInt("energy",100);
             String upgrade = generatorSection.getString("upgrade", "MAX");
             String upgradeCost = generatorSection.getString("upgradeCost", "null");
 
@@ -64,6 +65,7 @@ public class GeneratorConfig {
             generator.setGeneratorMaterial(generatorMaterial);
             generator.setSpeed(speed);
             generator.setSpace(space);
+            generator.setMaximumEnergy(energy);
             generator.setNextGeneratorUpgradeId(upgrade);
             generator.setUpgradeRequirement(upgradeCost);
             generatorManager.getService().registerGenerator(generatorId,generator);

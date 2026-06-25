@@ -48,6 +48,7 @@ public class PlayerGeneratorConfig {
                 PlayerGenerator playerGenerator = new PlayerGenerator(plugin.getGeneratorManager().getGenerator(generatorId));
                 playerGenerator.setGeneratedBlocks(generated);
                 playerGenerator.getGenerator().setEnergy(energy);
+                playerGenerator.setJournal(plugin.getJournalManager().getOrCreateJournal(id));
                 if (generatorSection.contains("upgrades")) loadUpgrades(generatorSection.getConfigurationSection("upgrades"), playerGenerator);
                 playerGenerator.initilize();
                 playerGeneratorManager.getService().addGenerator(playerName,playerGenerator);
@@ -81,6 +82,8 @@ public class PlayerGeneratorConfig {
                     upgradeSection.set(n+".generated", generatorUpgrade.getGeneratedAmount());
                 }
 
+                if (playerGenerator.getJournal() != null)
+                    plugin.getJournalManager().getService().addJournal(playerGenerator.getGeneratorId(), playerGenerator.getJournal());
             }
         }
 
@@ -89,6 +92,8 @@ public class PlayerGeneratorConfig {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        plugin.getJournalManager().getConfig().save();
     }
 
     public void reloadConfig(){
