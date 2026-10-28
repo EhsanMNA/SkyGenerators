@@ -87,11 +87,13 @@ public class PlayerGenerator {
             if (item == null || item.getType() == Material.AIR){
                 int amount = Math.min(generatedBlocks, 64);
                 generatedBlocks = generatedBlocks - amount;
+                if (amount == 0) break;
                 player.getInventory().setItem(i, new ItemStack(generator.getBaseGenerator().getGeneratorMaterial(), amount));
             } else if (item.getType() == generator.getBaseGenerator().getGeneratorMaterial()) {
                 if (item.getAmount() != 64){
                     int amount = Math.min(generatedBlocks, 64 - item.getAmount());
                     generatedBlocks = generatedBlocks - amount;
+                    if (amount == 0) break;
                     player.getInventory().addItem(new ItemStack(generator.getBaseGenerator().getGeneratorMaterial(), amount));
                 }
             }
